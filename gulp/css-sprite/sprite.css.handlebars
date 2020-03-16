@@ -1,0 +1,54 @@
+{{#each sprites}}
+  {{#if @first}}
+.icon {
+  display: inline-block;
+  position: relative;
+  line-height: 1;
+  vertical-align: top;
+}
+.icon::before {
+  content: ' ';
+  display: block;
+  background-image: url({{#if cdn}}https://cdn.ddocdoc.com/_wstatic/assets/{{/if}}{{escaped_image}}?v={{version}});
+  background-size: {{total_width}}px {{total_height}}px;
+}
+.sr-only{
+  display: none;
+}
+.icon.mobile{
+  display: none;
+}
+  {{/if}}
+  {{#unless checked}}
+.icon.icon-{{name}}{{#if active}}.active{{/if}}{{#if hover}}:hover{{/if}}::before {
+  background-position: {{offset_x}}px {{offset_y}}px;
+  width: {{width}}px;
+  height: {{height}}px;
+}
+  {{/unless}}
+  {{#if checked}}
+input:checked + .icon.icon-{{name}}{{#if hover}}:hover{{/if}}::before {
+  background-position: {{offset_x}}px {{offset_y}}px;
+  width: {{width}}px;
+  height: {{height}}px;
+}
+  {{/if}}
+{{/each}}
+@media (max-width: 767px) {
+{{#each mobile}}
+  {{#if @first}}
+.icon.mobile{
+  display: inline-block;
+}
+.icon.desktop{
+  display: none;
+}
+  {{/if}}
+.icon.icon-{{name}}{{#if active}}.active{{/if}}::before{{#if hover}}:hover{{/if}} {
+  background-position: {{offset_x}}px {{offset_y}}px;
+  width: {{width}}px;
+  height: {{height}}px;
+}
+
+{{/each}}
+}

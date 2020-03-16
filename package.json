@@ -1,0 +1,79 @@
+{
+  "name": "react-redux-ts-template-v2",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npm run env:dev && react-scripts start",
+    "start:test": "npm run env:test && react-scripts start",
+    "start:prod": "npm run env:prod && react-scripts start",
+    "build": "react-scripts build",
+    "build:test": "npm run env:test && react-scripts build",
+    "build:prod": "npm run env:prod && react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "env:dev": "cp ./environments/.env.dev ./.env",
+    "env:test": "cp ./environments/.env.test ./.env",
+    "env:prod": "cp ./environments/.env.production ./.env",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "sprite": "gulp makesprite"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^24.0.25",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^12.12.24",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/react-router-dom": "^5.1.3",
+    "@types/styled-components": "^4.4.2",
+    "axios": "^0.19.1",
+    "lodash": "^4.17.15",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.1.3",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.3.0",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.0.0",
+    "typesafe-actions": "^5.1.0",
+    "typescript": "^3.7.4"
+  },
+  "devDependencies": {
+    "@types/react-redux": "^7.1.7",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.18.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-load-plugins": "^2.0.2",
+    "gulp-rename": "^2.0.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-zip": "^5.0.1",
+    "gulp.spritesmith": "^6.11.0",
+    "handlebars": "^4.7.3",
+    "run-sequence": "^2.2.1",
+    "typescript-eslint": "0.0.1-alpha.0"
+  }
+}

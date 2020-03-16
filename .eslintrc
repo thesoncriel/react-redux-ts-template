@@ -1,0 +1,87 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "react", "react-hooks"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "settings": {
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "rules": {
+    "jsx-wrap-multiline": 0,
+    "quotes": [
+      1,
+      "single",
+      { "avoidEscape": true, "allowTemplateLiterals": true }
+    ],
+    "jsx-quotes": [1, "prefer-double"],
+    "interface-name": 0,
+    "ordered-imports": 0,
+    // "no-unused-variable": 1,
+    "no-trailing-spaces": [
+      1,
+      {
+        "ignoreComments": true
+      }
+    ],
+    "max-classes-per-file": 0,
+    "camelcase": 1,
+    "no-shadow": 0,
+    "arrow-parens": 0,
+    "sort-keys": 0,
+    "no-sequences": 0,
+    "comma-dangle": 0,
+    // "no-submodule-imports": [
+    //   true,
+    //   "next/config",
+    //   "next/link",
+    //   "next/router",
+    //   "next/app",
+    //   "next/head",
+    //   "lodash/debounce"
+    // ],
+    "max-len": [
+      1,
+      {
+        "ignorePattern": "^import",
+        "ignoreComments": true
+      }
+    ],
+    "react/jsx-boolean-value": [
+      1,
+      "never",
+      {
+        "always": ["personal"]
+      }
+    ],
+    "react/prop-types": 0,
+    // "jsx-no-multiline-js": false
+    "@typescript-eslint/explicit-member-accessibility": [
+      1,
+      {
+        "accessibility": "no-public"
+      }
+    ],
+    "@typescript-eslint/no-use-before-define": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/interface-name-prefix": 0
+  }
+}

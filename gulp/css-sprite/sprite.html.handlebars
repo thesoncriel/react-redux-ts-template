@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CSS Sprite Test</title>
+  <link rel="stylesheet" href="sprite.css">
+  <style>
+    ul,li{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .item {
+      border: 1px solid #333;
+      text-align: center;
+      float: left;
+      /*height: 10rem;*/
+      padding: .5rem;
+      position: relative;
+    }
+    .number{
+      position: absolute;
+      left: .25rem;
+      top: .25rem;
+      background: #000;
+      color: #fff;
+      border-radius: 1rem;
+      width: 1rem;
+      height: 1rem;
+      padding: .3rem;
+    }
+    .preview{
+      background: #ddd;
+      padding: 1rem 0;
+    }
+    .article{
+      margin-top: 7rem;
+    }
+    .article::after{
+      content: ' ';
+      display: block;
+      clear: both;
+    }
+    .hidden{
+      display: none;
+    }
+    .icon::before{
+      background-color: #e4e4e4;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      var elemContainer = document.querySelector('.container');
+
+      elemContainer.addEventListener('dblclick', function(e){
+        if (e.target.className === 'cssClass'){
+          var range = document.createRange();
+
+          range.selectNode(e.target);
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(range);
+
+        }
+
+        return false;
+      }, true);
+    });
+  </script>
+</head>
+<body>
+  <section class="container">
+    <h1>이미지 스프라이트 아이콘 테스트</h1>
+    <h2>❖ 아이콘의 css class 에서 더블 클릭 하면 선택 됩니다.</h2>
+    {{#each sprites}}
+    <div class="article">
+      <h2>{{@key}}{{#ifLike @key "mobile"}} (width: 767px 이하){{/ifLike}}</h2>
+      <ul class="list">
+        {{#each this}}
+        {{#unless hover}}{{#unless checked}}
+        <li class="item">
+          <span class="number">{{@index}}</span>
+          <div class="preview"><span class="icon icon-{{name}}{{#if active}} active{{/if}}"></span></div>
+          <div class="size">{{width}} x {{height}}</div>
+          <div class="cssClass">icon icon-{{name}}{{#if active}} active{{/if}}</div>
+        </li>
+        {{/unless}}{{/unless}}
+        {{#if checked}}
+        <li class="item">
+          <span class="number">{{@index}}</span>
+          <div class="preview">
+            <label for="checkbox_{{@key}}_{{@index}}">
+              <input id="checkbox_{{@key}}_{{@index}}" type="checkbox" class="hidden" checked>
+              <span class="icon icon-{{name}}{{#if active}} active{{/if}}"></span>
+            </label>
+
+          </div>
+          <div class="size">{{width}} x {{height}}</div>
+          <div class="cssClass">icon icon-{{name}}{{#if active}} active{{/if}}</div>
+        </li>
+        {{/if}}
+        {{/each}}
+      </ul>
+    </div>
+    {{/each}}
+  </section>
+</body>
+</html>

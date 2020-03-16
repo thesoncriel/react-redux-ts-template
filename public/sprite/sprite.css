@@ -1,0 +1,65 @@
+.icon {
+  display: inline-block;
+  position: relative;
+  line-height: 1;
+  vertical-align: top;
+}
+.icon::before {
+  content: ' ';
+  display: block;
+  background-image: url(sprite.png?v=0.1.0);
+  background-size: 193.5px 89px;
+}
+.sr-only{
+  display: none;
+}
+.icon.mobile{
+  display: none;
+}
+.icon.icon-link::before {
+  background-position: -162px -60px;
+  width: 21px;
+  height: 22.5px;
+}
+.icon.icon-mark::before {
+  background-position: -138.5px -60px;
+  width: 22.5px;
+  height: 22.5px;
+}
+.icon.icon-notice::before {
+  background-position: -57px 0px;
+  width: 55.5px;
+  height: 51px;
+}
+.icon.icon-plus::before {
+  background-position: -113.5px -60px;
+  width: 24px;
+  height: 24px;
+}
+.icon.icon-refresh::before {
+  background-position: -87px -57px;
+  width: 21px;
+  height: 21px;
+}
+.icon.icon-bi-alt::before {
+  background-position: 0px -57px;
+  width: 86px;
+  height: 32px;
+}
+.icon.icon-bi-white::before {
+  background-position: -113.5px -30px;
+  width: 79px;
+  height: 29px;
+}
+.icon.icon-bi::before {
+  background-position: -113.5px 0px;
+  width: 80px;
+  height: 29px;
+}
+.icon.icon-logo::before {
+  background-position: 0px 0px;
+  width: 56px;
+  height: 56px;
+}
+@media (max-width: 767px) {
+}
