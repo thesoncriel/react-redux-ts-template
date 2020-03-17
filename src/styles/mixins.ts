@@ -8,7 +8,6 @@ import {
  * 믹스인으로 쓰일 스타일은 여기에 정의한다.
  * 반드시 접두어가 mx 로 시작되도록 작성한다.
  */
-
 function getMediaQuery(min: number, max?: number) {
   return `@media screen and (min-width: ${min}px)${
     max ? ' and (max-width: ' + max + 'px)' : ''

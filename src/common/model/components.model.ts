@@ -84,33 +84,33 @@ export interface SimpleInputProps {
  */
 export interface InputComponentProps extends ClassNameProps, SimpleInputProps {
   /**
-   * 자동완성 여부
+   * 입력란에 적용되는 name 속성값
    */
-  autoCompleteOff?: boolean;
+  name: string;
   /**
-   * 컴포넌트 고유 ID
+   * 비활성화 여부
    */
-  id?: string;
+  disabled?: boolean;
+}
+
+/**
+ * 레이블 및 안내문구(Placeholder)가 포함된 입력 컴포넌트에 사용되는 프로퍼티.
+ */
+export interface LabeledInputComponentProps extends InputComponentProps {
   /**
    * 입력란 옆에 출력되는 레이블 워딩.
    */
   label?: string;
   /**
-   * 입력란에 적용되는 name 속성값
-   */
-  name: string;
-  /**
    * 안내문구
    */
   placeholder?: string;
-  /**
-   * 비활성화 여부
-   */
-  disabled?: boolean;
-  /**
-   * 옵션 목록
-   */
-  options?: SelectOption[];
+}
+
+/**
+ * 입력 길이에 제한이 있는 입력 컴포넌트에 사용되는 프로퍼티.
+ */
+export interface LimitedInputComponentProps extends InputComponentProps {
   /**
    * 최소값
    */
@@ -123,12 +123,21 @@ export interface InputComponentProps extends ClassNameProps, SimpleInputProps {
    * 최대 길이
    */
   maxlen?: number;
-  /**
-   * 입력이 허용되는 Regexp 패턴
-   */
-  pattern?: string;
 }
 
+/**
+ * 자동완성 기능이 지원되는 컴포넌트에 사용되는 프로퍼티.
+ */
+export interface AutoCompleteComponentProps extends InputComponentProps {
+  /**
+   * 자동완성 여부
+   */
+  autoCompleteOff?: boolean;
+  /**
+   * 옵션 목록
+   */
+  options?: SelectOption[];
+}
 
 /**
  * 체크 박스에 공통으로 쓰이는 프로퍼티
@@ -146,6 +155,16 @@ export interface CheckboxComponentProps extends ClassNameProps {
    * 비활성화 여부
    */
   disabled?: boolean;
+}
+
+/**
+ * 라디오버튼에 공통으로 쓰이는 프로퍼
+ */
+export interface RadioComponentProps extends CheckboxComponentProps {
+  /**
+   * 라디오 버튼이 체크 되었을 때 전달될 값.
+   */
+  value: string;
 }
 
 /**

@@ -1,6 +1,6 @@
 {
-  "name": "react-redux-ts-template-v2",
-  "version": "2.0.0",
+  "name": "react-redux-ts-template",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "npm run env:dev && react-scripts start",
@@ -73,6 +73,7 @@
     "gulp-zip": "^5.0.1",
     "gulp.spritesmith": "^6.11.0",
     "handlebars": "^4.7.3",
+    "prettier": "^1.19.1",
     "run-sequence": "^2.2.1",
     "typescript-eslint": "0.0.1-alpha.0"
   }
