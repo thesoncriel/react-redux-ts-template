@@ -8,7 +8,7 @@ import {
   SIZE_SIDE_PADDING_TABLET,
   SIZE_SIDE_PADDING_TABLET_INNER,
   TABLET_LANDSCAPE_MIN_WIDTH,
-} from '../../../styles/variables';
+} from '../../../styles/constants/device-sizes';
 import { cn } from '../../../util';
 
 interface Props {

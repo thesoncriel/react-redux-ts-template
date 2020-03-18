@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { SlickStyle } from './SlickStyle';
 
 const InitStyle = createGlobalStyle`
@@ -84,11 +84,11 @@ const UtilStyles = createGlobalStyle`
 `;
 
 const GlobalStyle: React.FunctionComponent = () => (
-  <Fragment>
+  <>
     <InitStyle />
     <SlickStyle />
     <UtilStyles />
-  </Fragment>
+  </>
 );
 
 export default GlobalStyle;

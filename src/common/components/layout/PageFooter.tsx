@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Icon } from '../Icon';
 import { mxBreakpoint } from '../../../styles/mixins';
-import { COLOR_BLACK } from '../../../styles/variables';
+import { COLOR_BLACK } from '../../../styles/constants/device-sizes';
 import { CompanyInfo } from './CompanyInfo';
 import { LayoutContainer } from './LayoutContainer';
 

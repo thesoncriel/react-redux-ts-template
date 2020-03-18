@@ -1,7 +1,7 @@
 import {
   DESKTOP_MAX_WIDTH,
   TABLET_PORTRAIT_MIN_WIDTH,
-} from '../styles/variables';
+} from '../styles/constants/device-sizes';
 
 // declare global {
 //   interface Window {

@@ -11,7 +11,7 @@ import {
   SIZE_HEADER_HEIGHT,
   SIZE_HEADER_MOBILE_HEIGHT,
   TRANSITION_EASING,
-} from '../../../styles/variables';
+} from '../../../styles/constants/device-sizes';
 import { cn, isServer, stopBodyScrolling } from '../../../util';
 // import { DrawerButton } from '../buttons/DrawerButton';
 import { ButtonNavigation, TopNavigation } from '../navigation';
