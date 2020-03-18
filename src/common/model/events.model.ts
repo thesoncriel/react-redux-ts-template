@@ -33,7 +33,7 @@ export interface DateRangeChangeArgs {
  */
 export interface CheckedChangeArgs {
   /**
-   * 컴포넌트의 일음.
+   * 변경 컴포넌트 이름
    */
   name: string;
   /**
@@ -70,6 +70,12 @@ export interface PageChangeArgs {
  * UI 에서 파일이 변경 되었을 때 보내주는 데이터.
  */
 export interface FileChangeArgs {
+  /**
+   * 변경 컴포넌트 이름
+   */
   name: string;
+  /**
+   * 변경된 단일 파일객체
+   */
   file: File;
 }
