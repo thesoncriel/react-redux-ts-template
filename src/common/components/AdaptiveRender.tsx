@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { useIsMobile, useIsTablet } from '../contexts';
 
 interface Props {
+  /**
+   * 데스크탑에서만 보여질 컴포넌트
+   */
+  desktop?: ReactElement | ReactNode | boolean;
   /**
    * 모바일 에서만 보이는지의 여부. 기본 false
    */
