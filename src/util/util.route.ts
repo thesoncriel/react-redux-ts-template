@@ -40,24 +40,3 @@ export function fileDownload(path: string) {
 export function newWindow(url: string) {
   return window.open(url, '_blank');
 }
-
-/**
- * next.js 에서 router 의 query 를 이용할 때 그 값이 단일 문자열 혹은 배열일 수 있으므로 이를 단일 문자열로 전달 하는 함수.
- * @param value 단일 문자열로 바꿀 파라미터 값
- * @param def 값이 비어있을 때 대신 할 기본값
- */
-export function getSingleValue(value: string | string[], def = '') {
-  if (Array.isArray(value)) {
-    return value[0];
-  }
-  return value || def;
-}
-
-/**
- * next.js 에서 router 의 query 를 이용할 때 그 값이 단일 문자열 혹은 배열일 수 있으므로 이를 단일 숫자로 전달 하는 함수.
- * @param value 단일 문자열로 바꿀 파라미터 값
- * @param def 값이 비어있을 때 대신 할 기본값
- */
-export function getSingleNumber(value: string | string[], def = 0) {
-  return Number(getSingleValue(value) || def);
-}

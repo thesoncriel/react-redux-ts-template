@@ -3,10 +3,6 @@
  */
 export enum SNSTypes {
   /**
-   * 특별히 정해져 있지 않은 공통 내용
-   */
-  // COMMON = 'common',
-  /**
    * 페이스북 관련
    */
   FACEBOOK = 'facebook',

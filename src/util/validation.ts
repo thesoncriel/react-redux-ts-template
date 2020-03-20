@@ -19,7 +19,7 @@ export const validLength = (min: number, max: number) => (val: string) => {
 export function validEmail(val: string) {
   return validLength(7, 100)(val) && (
     // tslint:disable-next-line:max-line-length
-    // /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,10})$/i
+    // /^(([^<>()\[\]\.,;:\molecules@\"]+(\.[^<>()\[\]\.,;:\molecules@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\molecules@\"]+\.)+[^<>()[\]\.,;:\molecules@\"]{2,10})$/i
     // /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,5})+$/
     /^(\w|-|\.)+@\w+([.-]?\w+)*(\.\w{2,5})+$/
   ).test(val);

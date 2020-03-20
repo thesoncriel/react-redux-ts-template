@@ -1,12 +1,15 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
-import RouteContainer from './routes/index';
+import { DeviceDetectContextProvider } from './common/contexts';
+import RouteContainer from './entries/RouteContainer';
 
 const App: React.FC = () => (
   <BrowserRouter>
     <GlobalStyle />
-    <RouteContainer />
+    <DeviceDetectContextProvider>
+      <RouteContainer />
+    </DeviceDetectContextProvider>
   </BrowserRouter>
 );
 

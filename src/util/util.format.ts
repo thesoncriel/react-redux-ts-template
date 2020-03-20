@@ -131,13 +131,6 @@ export function dateFormatNow() {
   return dateFormat(new Date());
 }
 
-// export function dateFormatByMoment(strDate: string) {
-//   if (!strDate) {
-//     return '';
-//   }
-//   return moment(strDate).format('YYYY-MM-DD');
-// }
-
 /**
  * 문자열로 된 날짜값에서 대시(-) 대신 다른 값으로 바꿔준다.
  * 기본값은 슬래시(/)

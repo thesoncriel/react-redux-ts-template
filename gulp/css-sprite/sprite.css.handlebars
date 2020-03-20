@@ -9,7 +9,7 @@
 .icon::before {
   content: ' ';
   display: block;
-  background-image: url({{#if cdn}}https://cdn.ddocdoc.com/_wstatic/assets/{{/if}}{{escaped_image}}?v={{version}});
+  background-image: url({{escaped_image}}?v={{version}});
   background-size: {{total_width}}px {{total_height}}px;
 }
 .sr-only{

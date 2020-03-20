@@ -106,6 +106,29 @@ export function isEmpty(val: any) {
 }
 
 /**
+ * 객체의 각 항목들을 검사하여 비어 있다면 그 항목 자체가 지워진 객체를 넘겨준다.
+ * @param origin
+ */
+export function cleanUpNil<T, R = T>(origin: T): R {
+  const keys  = Object.keys(origin);
+  const len = keys.length;
+  const target: any = { ...origin };
+  let key = '';
+  let val: any;
+
+  for (let i = 0; i < len; i++) {
+    key = keys[i];
+    val = target[key];
+
+    if (val === '' || isNil(val) || isNaN(val)) {
+      delete target[key];
+    }
+  }
+
+  return target;
+}
+
+/**
  * 특정 URL에서 파일명만 가져온다.
  * @param url 파일명을 가져오고싶은 경로
  */

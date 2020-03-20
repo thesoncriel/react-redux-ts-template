@@ -45,7 +45,7 @@ export const pipeJsonHeader = (headerData: HashMap<string>) => {
  */
 export const pipeAppHeader = (headerData: HashMap<string>) => {
   headerData['dd-app-version'] = appConfig.version;
-  headerData['dd-platform'] = 'ddocdoc_web';
+  headerData['dd-platform'] = 'web';
 
   return headerData;
 };

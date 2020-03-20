@@ -1,6 +1,6 @@
 {
-  "name": "react-redux-ts-template-v2",
-  "version": "2.0.0",
+  "name": "react-redux-ts-template",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "npm run env:dev && react-scripts start",
@@ -42,17 +42,18 @@
     "@types/styled-components": "^4.4.2",
     "axios": "^0.19.1",
     "lodash": "^4.17.15",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-redux": "^7.1.3",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-redux": "^7.2.0",
+    "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0",
+    "react-scripts": "^3.4.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^5.0.0",
+    "styled-components": "^5.0.1",
     "typesafe-actions": "^5.1.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.8.3"
   },
   "devDependencies": {
     "@types/react-redux": "^7.1.7",
@@ -62,8 +63,8 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.18.0",
-    "eslint-plugin-react-hooks": "^1.7.0",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-cssmin": "^0.2.0",
@@ -73,6 +74,7 @@
     "gulp-zip": "^5.0.1",
     "gulp.spritesmith": "^6.11.0",
     "handlebars": "^4.7.3",
+    "prettier": "^1.19.1",
     "run-sequence": "^2.2.1",
     "typescript-eslint": "0.0.1-alpha.0"
   }
