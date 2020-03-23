@@ -1,2 +1,3 @@
 export * from './SampleListContainer';
-export * from './SampleQueriesContainer';
+export * from './SampleJumbotronContainer';
+export * from './SampleResetContainer';

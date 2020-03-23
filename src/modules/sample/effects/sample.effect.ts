@@ -14,6 +14,8 @@ export const effSampleListLoad = createEffect<SampleListLoadParams>(async (paylo
 
     dispatch(actSampleListLoaded(res));
   } catch(e) {
+    console.log(e);
+    alert(e.message);
     dispatch(actSampleListFail(e));
   }
 });

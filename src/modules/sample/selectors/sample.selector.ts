@@ -13,6 +13,12 @@ const selSample = (state: AppState) => state.sample;
 export const selSampleItems = (state: AppState) => selSample(state).items;
 
 /**
+ * 셀렉터: 샘플 링크 목록을 가져온다.
+ * @param state
+ */
+export const selSampleLinkList = (state: AppState) => selSample(state).linkList;
+
+/**
  * 셀렉터: 샘플 목록 데이터의 전체 개수.
  * @param state
  */

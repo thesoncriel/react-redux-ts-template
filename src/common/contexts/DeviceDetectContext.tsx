@@ -1,12 +1,7 @@
 import React, { createContext, FC, useContext, useEffect, useState } from 'react';
 import { debounce } from '../../util';
 import { isMobile, isTablet } from '../services/user-agent.service';
-import {
-  DESKTOP_MIN_WIDTH,
-  MOBILE_MIN_WIDTH,
-  TABLET_MIN_WIDTH,
-  TABLET_SMALL_MIN_WIDTH,
-} from '../../styles/constants/device-sizes';
+import { DESKTOP_MIN_WIDTH, TABLET_MIN_WIDTH, TABLET_SMALL_MIN_WIDTH } from '../../styles/constants/device-sizes';
 
 const isServer = typeof window === 'undefined';
 // const _isMobile = isServer ? false : /iPhone|iPod|android/.test(window.navigator.userAgent);
@@ -21,7 +16,7 @@ function getIsMobile(): boolean {
     return false;
   }
 
-  return isMobile() || window.innerWidth <= MOBILE_MIN_WIDTH;
+  return isMobile() || window.innerWidth < TABLET_SMALL_MIN_WIDTH;
 }
 
 function getIsTablet(): boolean {
@@ -33,10 +28,11 @@ function getIsTablet(): boolean {
     }
     return false;
   }
-  return isTablet() || window.innerWidth <= TABLET_MIN_WIDTH;
+  return isTablet() || (window.innerWidth >= TABLET_SMALL_MIN_WIDTH && window.innerWidth <= TABLET_MIN_WIDTH);
 }
 
-export const DeviceDetectContext = createContext([false, false]);
+export const DeviceDetectContext = createContext([getIsMobile(), getIsTablet()]);
+
 const {
   Provider: DeviceDetectProvider,
 } = DeviceDetectContext;
@@ -45,6 +41,8 @@ export const DeviceDetectContextProvider: FC = ({ children }) => {
   const [isMobile, setIsMobile] = useState(getIsMobile());
   const [isTablet, setIsTablet] = useState(getIsTablet());
 
+  // const handle
+
   useEffect(() => {
     if (isServer) {
       return;
@@ -52,17 +50,23 @@ export const DeviceDetectContextProvider: FC = ({ children }) => {
 
     const handleResize = debounce(() => {
       const { innerWidth } = window;
+      const bIsMobile = innerWidth < TABLET_SMALL_MIN_WIDTH;
+      const bIsTablet = !bIsMobile && (innerWidth >= TABLET_SMALL_MIN_WIDTH && innerWidth < DESKTOP_MIN_WIDTH);
 
-      setIsMobile(innerWidth < TABLET_SMALL_MIN_WIDTH);
-      setIsTablet(
-        innerWidth >= TABLET_SMALL_MIN_WIDTH && innerWidth < DESKTOP_MIN_WIDTH,
-      );
+      setIsMobile(bIsMobile);
+      setIsTablet(bIsTablet);
+
+      // console.log('isMobile', bIsMobile, 'isTablet', bIsTablet, 'innerWidth', innerWidth);
     }, 150);
 
     window.addEventListener('resize', handleResize);
 
+    // handleResize();
+
     return () => window.removeEventListener('resize', handleResize); // eslint-disable-line
-  });
+  }, []);
+
+
 
   return (
     <DeviceDetectProvider value={[isMobile, isTablet]}>

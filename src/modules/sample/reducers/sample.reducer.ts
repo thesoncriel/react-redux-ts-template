@@ -1,6 +1,7 @@
 import { createReducer } from 'typesafe-actions';
-import { SampleItemModel } from '../models';
+import { SampleItemModel, SampleQueryParams } from '../models';
 import { actSampleListFail, actSampleListLoad, actSampleListLoaded, SampleActions } from '../actions';
+import { createSampleLinkList } from '../services';
 
 /**
  * 스토어 상태: 샘플 페이지에 대한 상태 모델.
@@ -15,6 +16,10 @@ export interface SampleState {
    */
   totalCount: number;
   /**
+   * 링크 목록.
+   */
+  linkList: SampleQueryParams[];
+  /**
    * 로딩중 여부.
    */
   loading: boolean;
@@ -24,6 +29,7 @@ export function getInitSampleState(): SampleState {
   return {
     items: [],
     totalCount: 0,
+    linkList: createSampleLinkList(),
     loading: false,
   }
 }

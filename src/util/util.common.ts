@@ -120,7 +120,7 @@ export function cleanUpNil<T, R = T>(origin: T): R {
     key = keys[i];
     val = target[key];
 
-    if (val === '' || isNil(val) || isNaN(val)) {
+    if (val === '' || isNil(val) || val === 'NaN') {
       delete target[key];
     }
   }

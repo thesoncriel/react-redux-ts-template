@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { SampleItemModel } from '../../models';
 import { SampleItem } from '../atoms';
+import { cssDashedBorder } from '../../styles';
 
 export interface SampleListProps {
   /**
@@ -12,7 +13,7 @@ export interface SampleListProps {
 
 const StyledSampleList = styled.div`
   padding: 10px;
-  border: 3px dashed #aaa;
+  ${cssDashedBorder}
 `;
 
 /**

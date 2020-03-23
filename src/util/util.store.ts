@@ -3,7 +3,6 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { HashMap, InputChangeArgs } from '../common/model';
 import { AppState } from '../entries/stores';
-import { useDispatch } from 'react-redux';
 
 export type AsyncDispatch<A extends AnyAction = AnyAction> = ThunkDispatch<
   AppState,
@@ -32,10 +31,6 @@ export function createEffect<
   return (payload: Q) => (dispatch: AsyncDispatch<A>, getState: () => AppState) => {
     fnProcess(payload, dispatch, getState);
   };
-}
-
-export function useAsyncDispatch() {
-  return useDispatch<AsyncDispatch<AnyAction>>();
 }
 
 /**

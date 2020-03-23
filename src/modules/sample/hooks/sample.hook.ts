@@ -1,15 +1,11 @@
 import { useParams } from 'react-router';
 import { cleanUpNil } from '../../../util';
+import { useCleanParams } from '../../../common/hooks';
+import { SampleQueryParams } from '../models';
 
 /**
- * 훅: 쿼리 파라미터를 객체로 가져온다.
- *
- * 만약 필드 값이 비어있다면 그 필드는 제거하고 돌려준다.
- *
- * @see useParams
+ * 훅: 샘플 페이지의 쿼리 파라미터를 객체로 가져온다.
  */
-export const useCleanParams = <T>() => {
-  const params = useParams<T>();
-
-  return cleanUpNil(params);
+export const useSampleParams = () => {
+  return useCleanParams<SampleQueryParams>();
 }

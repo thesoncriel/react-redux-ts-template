@@ -5,7 +5,12 @@ import { JumbotronBottomLink, JumbotronBottomLinkProps } from '../atoms/Jumbotro
 /**
  * 점보트론 컴포넌트의 프로퍼티.
  */
-export type JumbotronProps = JumbotronBottomLinkProps;
+export interface JumbotronProps extends JumbotronBottomLinkProps {
+  /**
+   * 하단에 출력될 명칭.
+   */
+  name?: string;
+}
 
 const StyledJumbotron = styled.article`
   overflow: hidden;
@@ -28,6 +33,6 @@ export const Jumbotron: FC<JumbotronProps> = props => (
     <Wrap>
       {props.children}
     </Wrap>
-    <JumbotronBottomLink link={props.link}>{props.link}</JumbotronBottomLink>
+    <JumbotronBottomLink link={props.link}>{props.name || '없음'}</JumbotronBottomLink>
   </StyledJumbotron>
 );

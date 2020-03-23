@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { hocStyled } from '../../../../common/hoc';
+import { hocSampleClickTracker } from '../../hoc';
 
 export interface JumbotronBottomLinkProps {
   /**
@@ -12,9 +13,12 @@ export interface JumbotronBottomLinkProps {
 
 const StyledLink = hocStyled(Link, css`
   display: block;
+  padding: 0.5em 0;
   color: #333;
   background: #eee;
 `);
+
+const TrackedLink = hocSampleClickTracker('linkClick', StyledLink);
 
 /**
  * describe
@@ -22,8 +26,8 @@ const StyledLink = hocStyled(Link, css`
  */
 export const JumbotronBottomLink: FC<JumbotronBottomLinkProps> = props => (
   props.link ?
-    <StyledLink to={props.link}>
+    <TrackedLink to={props.link}>
       {props.children}
-    </StyledLink>
+    </TrackedLink>
     : null
 );

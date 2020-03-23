@@ -73,7 +73,7 @@ export function hocAdaptiveRender<T>(settings: AdaptiveRenderSettings<T>) {
       Comp = MobileComp;
     } else if (isTablet && TabletComp) {
       Comp = TabletComp;
-    } else if (!isMobile && !isTablet && DesktopComp) {
+    } else if ((!isMobile && !isTablet) && DesktopComp) {
       Comp = DesktopComp;
     } else {
       return null;

@@ -3,10 +3,9 @@ import { useSelector } from 'react-redux';
 import { selSampleItems } from '../selectors';
 import { SampleList } from '../components/molecules';
 import { effSampleListLoad } from '../effects/sample.effect';
-import { useAsyncDispatch } from '../../../util';
 import { SampleListLoadParams } from '../models';
+import { useADispatch } from '../../../common/hooks';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface Props {
   queries?: SampleListLoadParams;
 }
@@ -20,7 +19,7 @@ export const SampleListContainer: FC<Props> = (
     queries
   }
 ) => {
-  const dispatch = useAsyncDispatch();
+  const dispatch = useADispatch();
   const items = useSelector(selSampleItems);
 
   useEffect(() => dispatch(effSampleListLoad({ ...queries })), [dispatch, queries]);
