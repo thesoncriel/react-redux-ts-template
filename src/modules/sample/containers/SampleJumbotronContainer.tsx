@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { selSampleLinkList } from '../selectors';
-import { AdaptiveJumbotronList } from '../components/adaptives';
+import { AdaptiveJumbotronList } from '../components';
 
 /**
  * 컨테이너: describe
@@ -10,7 +10,5 @@ import { AdaptiveJumbotronList } from '../components/adaptives';
 export const SampleJumbotronContainer: FC = () => {
   const linkList = useSelector(selSampleLinkList);
 
-  return (
-    <AdaptiveJumbotronList items={linkList} />
-  );
+  return <AdaptiveJumbotronList items={linkList} />;
 };

@@ -28,7 +28,10 @@ export function createEffect<
     getState: () => AppState,
   ) => void,
 ) {
-  return (payload: Q) => (dispatch: AsyncDispatch<A>, getState: () => AppState) => {
+  return (payload: Q) => (
+    dispatch: AsyncDispatch<A>,
+    getState: () => AppState,
+  ) => {
     fnProcess(payload, dispatch, getState);
   };
 }

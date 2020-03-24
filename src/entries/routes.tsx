@@ -1,8 +1,7 @@
 import { sampleRoute } from '../modules/sample/routes';
+import { rootRoutes } from '../modules/root/routes';
 
 /**
  * 프로젝트 내 모든 라우트 정보를 모은것.
  */
-export const routes = [
-  ...sampleRoute,
-];
+export const routes = [...rootRoutes, ...sampleRoute];

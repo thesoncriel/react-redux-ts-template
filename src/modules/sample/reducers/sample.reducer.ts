@@ -1,6 +1,11 @@
 import { createReducer } from 'typesafe-actions';
 import { SampleItemModel, SampleQueryParams } from '../models';
-import { actSampleListFail, actSampleListLoad, actSampleListLoaded, SampleActions } from '../actions';
+import {
+  actSampleListFail,
+  actSampleListLoad,
+  actSampleListLoaded,
+  SampleActions,
+} from '../actions';
 import { createSampleLinkList } from '../services';
 
 /**
@@ -31,17 +36,22 @@ export function getInitSampleState(): SampleState {
     totalCount: 0,
     linkList: createSampleLinkList(),
     loading: false,
-  }
+  };
 }
 
-export const sampleReducer = createReducer<SampleState, SampleActions>(getInitSampleState())
+export const sampleReducer = createReducer<SampleState, SampleActions>(
+  getInitSampleState(),
+)
   .handleAction(actSampleListLoad, state => ({
-    ...state, loading: true
+    ...state,
+    loading: true,
   }))
   .handleAction(actSampleListLoaded, (state, action) => ({
-    ...state, ...action.payload, loading: false
+    ...state,
+    ...action.payload,
+    loading: false,
   }))
   .handleAction(actSampleListFail, state => ({
-    ...state, loading: false
-  }))
-;
+    ...state,
+    loading: false,
+  }));

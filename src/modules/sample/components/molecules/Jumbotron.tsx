@@ -1,6 +1,9 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { JumbotronBottomLink, JumbotronBottomLinkProps } from '../atoms/JumbotronBottomLink';
+import {
+  JumbotronBottomLink,
+  JumbotronBottomLinkProps,
+} from '../atoms/JumbotronBottomLink';
 
 /**
  * 점보트론 컴포넌트의 프로퍼티.
@@ -30,9 +33,9 @@ const Wrap = styled.p`
  */
 export const Jumbotron: FC<JumbotronProps> = props => (
   <StyledJumbotron>
-    <Wrap>
-      {props.children}
-    </Wrap>
-    <JumbotronBottomLink link={props.link}>{props.name || '없음'}</JumbotronBottomLink>
+    <Wrap>{props.children}</Wrap>
+    <JumbotronBottomLink link={props.link}>
+      {props.name || '없음'}
+    </JumbotronBottomLink>
   </StyledJumbotron>
 );

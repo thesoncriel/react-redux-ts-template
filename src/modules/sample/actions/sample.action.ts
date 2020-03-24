@@ -10,7 +10,9 @@ export const actSampleListLoad = createAction('SampleListLoad')();
 /**
  * 액션: 샘플 목록 불러오기 성공.
  */
-export const actSampleListLoaded = createAction('SampleListLoaded')<ListRes<SampleItemModel>>();
+export const actSampleListLoaded = createAction('SampleListLoaded')<
+  ListRes<SampleItemModel>
+>();
 
 /**
  * 액션: 샘플 목록 실패.
@@ -20,7 +22,9 @@ export const actSampleListFail = createAction('SampleListFail')<ErrorModel>();
 /**
  * 액션: 샘플 입력값 변경.
  */
-export const actSampleInputChange = createAction('SampleInputChange')<InputChangeArgs>();
+export const actSampleInputChange = createAction('SampleInputChange')<
+  InputChangeArgs
+>();
 
 const actions = {
   actSampleListLoad,

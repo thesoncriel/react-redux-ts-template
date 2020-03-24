@@ -10,8 +10,14 @@ import { JumbotronListProps } from './JumbotronList';
  */
 export const JumbotronSlider: FC<JumbotronListProps> = props => (
   <Slider>
-    {props.items.map((datum, idx) =>
-      <Jumbotron key={idx} name={datum.name} link={serializeParams(datum, true)}>{datum.name}</Jumbotron>
-    )}
+    {props.items.map((datum, idx) => (
+      <Jumbotron
+        key={idx}
+        name={datum.name}
+        link={serializeParams(datum, true)}
+      >
+        {datum.name}
+      </Jumbotron>
+    ))}
   </Slider>
 );

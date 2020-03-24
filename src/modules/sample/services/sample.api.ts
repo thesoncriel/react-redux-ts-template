@@ -5,7 +5,9 @@ import { SampleItemModel } from '../models/sample.model';
 import { compareSome } from '../../../util';
 import { MSG_SAMPLE_LIST_LOAD_ERROR } from '../messages';
 
-const filterSampleList = (params: SampleListLoadParams) => (res: ListRes<SampleItemModel>) => {
+const filterSampleList = (params: SampleListLoadParams) => (
+  res: ListRes<SampleItemModel>,
+) => {
   const keys = Object.keys(params);
   const items = res.items.filter(item => !compareSome(keys, item, params));
 
@@ -13,7 +15,7 @@ const filterSampleList = (params: SampleListLoadParams) => (res: ListRes<SampleI
     items,
     totalCount: res.totalCount,
   } as ListRes<SampleItemModel>;
-}
+};
 
 let loadCount = 0;
 
@@ -36,5 +38,5 @@ export const sampleApi = {
     return staticApi
       .get<ListRes<SampleItemModel>>('/data/sample-list.json')
       .then(filterSampleList(params));
-  }
+  },
 };

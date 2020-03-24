@@ -1,5 +1,3 @@
-import { useParams } from 'react-router';
-import { cleanUpNil } from '../../../util';
 import { useCleanParams } from '../../../common/hooks';
 import { SampleQueryParams } from '../models';
 
@@ -8,4 +6,4 @@ import { SampleQueryParams } from '../models';
  */
 export const useSampleParams = () => {
   return useCleanParams<SampleQueryParams>();
-}
+};

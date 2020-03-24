@@ -1,5 +1,11 @@
 /* eslint-disable react/display-name */
-import React, { ComponentType, FC, MouseEventHandler, useRef } from 'react';
+import React, {
+  ComponentType,
+  FC,
+  memo,
+  MouseEventHandler,
+  useRef,
+} from 'react';
 import { throttle } from '../../util';
 
 type SimpleEventHandler = () => void;
@@ -11,10 +17,10 @@ type SimpleEventHandler = () => void;
  */
 export function hocThrottledClick<
   P extends { onClick?: MouseEventHandler<any> | SimpleEventHandler }
-  >(ButtonComp: ComponentType<P>, time = 350): FC<P> {
-  return (props) => {
+>(ButtonComp: ComponentType<P>, time = 250): FC<P> {
+  return memo(props => {
     const handleClick = useRef(
-      throttle((args) => {
+      throttle(args => {
         if (props.onClick) {
           props.onClick(args);
         }
@@ -22,9 +28,9 @@ export function hocThrottledClick<
     );
 
     return (
-      <ButtonComp {...props} onClick={handleClick}>
+      <ButtonComp {...props} onClick={handleClick.current}>
         {props.children}
       </ButtonComp>
     );
-  };
+  });
 }

@@ -26,10 +26,10 @@ export function useADispatch() {
  *
  * @see useParams
  */
-export const useCleanParams = <T>() => {
-  const params = useParams<T>();
+export function useCleanParams<T>() {
+  const params = (useParams() as unknown) as T;
 
-  return cleanUpNil(params);
+  return cleanUpNil<T, T>(params);
 }
 
 /**
@@ -46,18 +46,13 @@ export function useQuery<T = any>(): T {
   }
 
   const sSearch = search.substring(1, search.length);
-  const mQuery: any = sSearch
-    .split('&')
-    .reduce((ret: any, query) => {
-      const [
-        key,
-        val,
-      ] = query.split('=');
+  const mQuery: any = sSearch.split('&').reduce((ret: any, query) => {
+    const [key, val] = query.split('=');
 
-      ret[key] = decodeURIComponent(val);
+    ret[key] = decodeURIComponent(val);
 
-      return ret;
-    }, {} as any);
+    return ret;
+  }, {} as any);
 
   return mQuery;
 }

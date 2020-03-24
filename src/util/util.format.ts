@@ -6,6 +6,9 @@
  * @param digit 0을 채울 자릿수
  */
 export function padNumber(num: number, digit = 2): string {
+  if (num < 0) {
+    throw new Error('"num" cannot be negative.');
+  }
   return (num + '').padStart(digit, '0');
 }
 

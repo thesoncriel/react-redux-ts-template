@@ -1,7 +1,17 @@
-import React, { createContext, FC, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  FC,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { debounce } from '../../util';
 import { isMobile, isTablet } from '../services/user-agent.service';
-import { DESKTOP_MIN_WIDTH, TABLET_MIN_WIDTH, TABLET_SMALL_MIN_WIDTH } from '../../styles/constants/device-sizes';
+import {
+  DESKTOP_MIN_WIDTH,
+  TABLET_MIN_WIDTH,
+  TABLET_SMALL_MIN_WIDTH,
+} from '../../styles/constants/device-sizes';
 
 const isServer = typeof window === 'undefined';
 // const _isMobile = isServer ? false : /iPhone|iPod|android/.test(window.navigator.userAgent);
@@ -28,14 +38,19 @@ function getIsTablet(): boolean {
     }
     return false;
   }
-  return isTablet() || (window.innerWidth >= TABLET_SMALL_MIN_WIDTH && window.innerWidth <= TABLET_MIN_WIDTH);
+  return (
+    isTablet() ||
+    (window.innerWidth >= TABLET_SMALL_MIN_WIDTH &&
+      window.innerWidth <= TABLET_MIN_WIDTH)
+  );
 }
 
-export const DeviceDetectContext = createContext([getIsMobile(), getIsTablet()]);
+export const DeviceDetectContext = createContext([
+  getIsMobile(),
+  getIsTablet(),
+]);
 
-const {
-  Provider: DeviceDetectProvider,
-} = DeviceDetectContext;
+const { Provider: DeviceDetectProvider } = DeviceDetectContext;
 
 export const DeviceDetectContextProvider: FC = ({ children }) => {
   const [isMobile, setIsMobile] = useState(getIsMobile());
@@ -51,7 +66,10 @@ export const DeviceDetectContextProvider: FC = ({ children }) => {
     const handleResize = debounce(() => {
       const { innerWidth } = window;
       const bIsMobile = innerWidth < TABLET_SMALL_MIN_WIDTH;
-      const bIsTablet = !bIsMobile && (innerWidth >= TABLET_SMALL_MIN_WIDTH && innerWidth < DESKTOP_MIN_WIDTH);
+      const bIsTablet =
+        !bIsMobile &&
+        innerWidth >= TABLET_SMALL_MIN_WIDTH &&
+        innerWidth < DESKTOP_MIN_WIDTH;
 
       setIsMobile(bIsMobile);
       setIsTablet(bIsTablet);
@@ -65,8 +83,6 @@ export const DeviceDetectContextProvider: FC = ({ children }) => {
 
     return () => window.removeEventListener('resize', handleResize); // eslint-disable-line
   }, []);
-
-
 
   return (
     <DeviceDetectProvider value={[isMobile, isTablet]}>

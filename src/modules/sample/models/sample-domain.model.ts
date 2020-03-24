@@ -1,5 +1,7 @@
 /**
  * 샘플 목록 요청 시 사용되는 파라미터.
+ *
+ * http://www.google.com
  */
 export interface SampleListLoadParams {
   /**

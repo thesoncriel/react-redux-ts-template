@@ -20,8 +20,14 @@ export interface JumbotronListProps {
  */
 export const JumbotronList: FC<JumbotronListProps> = props => (
   <ColumnLayout>
-    {props.items.map((datum, idx) =>
-      <Jumbotron key={idx} name={datum.name} link={serializeParams(datum, true)}>{datum.name}</Jumbotron>
-    )}
+    {props.items.map((datum, idx) => (
+      <Jumbotron
+        key={idx}
+        name={datum.name}
+        link={serializeParams(datum, true)}
+      >
+        {datum.name}
+      </Jumbotron>
+    ))}
   </ColumnLayout>
 );

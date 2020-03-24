@@ -1,5 +1,19 @@
 import { InputChangeArgs, PageChangeArgs } from './events.model';
 import { HashMap } from './collections.model';
+import { MouseEventHandler, ReactNode } from 'react';
+
+/**
+ * 인자 없고 리턴값도 없는 간단한 형태의 이벤트 핸들러 타입.
+ */
+export type SimpleEventHandler = () => void;
+
+/**
+ * 클릭 이벤트와 자식 요소가 포함될 수 있는 리액트 요소.
+ */
+export interface ClickableReactElement<T = MouseEvent> {
+  onClick?: MouseEventHandler<MouseEvent> | SimpleEventHandler;
+  children: ReactNode;
+}
 
 /**
  * 컴포넌트 프로퍼티에 className 을 넣을 때 포함하는 모델.

@@ -9,7 +9,9 @@ import { AppState } from '../../entries/stores';
  * TODO: 추 후 기능 보완 필요.
  * @param store
  */
-export const trackingMiddleware = (api: MiddlewareAPI<Dispatch, AppState>) => (next: Dispatch<AnyAction>) => (action: {type: string; payload: string}) => {
+export const trackingMiddleware = (_: MiddlewareAPI<Dispatch, AppState>) => (
+  next: Dispatch<AnyAction>,
+) => (action: { type: string; payload: string }) => {
   if (action.type === 'TRACKING') {
     console.log('tracking --- ', action.payload);
 

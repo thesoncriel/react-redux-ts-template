@@ -10,8 +10,5 @@ const reducers = combineReducers({
 export type AppState = ReturnType<typeof reducers>;
 export const store = createStore(
   reducers,
-  applyMiddleware(
-    thunk as ThunkMiddleware<AppState>,
-    trackingMiddleware,
-  ),
+  applyMiddleware(thunk as ThunkMiddleware<AppState>, trackingMiddleware),
 );

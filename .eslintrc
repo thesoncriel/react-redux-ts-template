@@ -34,7 +34,6 @@
     "jsx-quotes": [1, "prefer-double"],
     "interface-name": 0,
     "ordered-imports": 0,
-    // "no-unused-variable": 1,
     "no-trailing-spaces": [
       1,
       {
@@ -83,6 +82,9 @@
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
-    "@typescript-eslint/interface-name-prefix": 0
+    "@typescript-eslint/interface-name-prefix": 0,
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "argsIgnorePattern": "^_"
+    }]
   }
 }

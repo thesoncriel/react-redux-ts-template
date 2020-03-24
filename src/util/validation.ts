@@ -7,7 +7,7 @@ import { isNil } from './util.common';
  * @param max 최대 길이
  */
 export const validLength = (min: number, max: number) => (val: string) => {
-  return validEmpty(val) && (val.length >= min) && (val.length <= max);
+  return validEmpty(val) && val.length >= min && val.length <= max;
 };
 
 /**
@@ -17,12 +17,13 @@ export const validLength = (min: number, max: number) => (val: string) => {
  * @param val
  */
 export function validEmail(val: string) {
-  return validLength(7, 100)(val) && (
+  return (
+    validLength(7, 100)(val) &&
     // tslint:disable-next-line:max-line-length
     // /^(([^<>()\[\]\.,;:\molecules@\"]+(\.[^<>()\[\]\.,;:\molecules@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\molecules@\"]+\.)+[^<>()[\]\.,;:\molecules@\"]{2,10})$/i
     // /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,5})+$/
-    /^(\w|-|\.)+@\w+([.-]?\w+)*(\.\w{2,5})+$/
-  ).test(val);
+    /^(\w|-|\.)+@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(val)
+  );
 }
 
 /**
@@ -43,7 +44,7 @@ export function validEmpty(val: string) {
 export function validPasswordWeak(val: string) {
   //  숫자, 영문 대/소문자 및 특수문자가 모두 최소 1자 이상 포함되고
   // return (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,20})/).test(val);
-  return (/^(?=.*[A-z])(?=.*[0-9])(?=.{6,20})/).test(val);
+  return /^(?=.*[A-z])(?=.*[0-9])(?=.{6,20})/.test(val);
 }
 
 /**
@@ -53,7 +54,7 @@ export function validPasswordWeak(val: string) {
  * @param val
  */
 export function validPassword(val: string) {
-  return (/^(?=.*[A-z])(?=.*[!@#$%^*+-])(?=.*[0-9]).{6,18}$/).test(val);
+  return /^(?=.*[A-z])(?=.*[!@#$%^*+-])(?=.*[0-9]).{6,18}$/.test(val);
 }
 
 /**
@@ -61,7 +62,10 @@ export function validPassword(val: string) {
  * @param val 체크할 주민번호
  */
 export function validJumin(val: string) {
-  return (/^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}$/).test(val);
+  // eslint-disable-next-line max-len
+  return /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}$/.test(
+    val,
+  );
 }
 
 /**
@@ -69,7 +73,7 @@ export function validJumin(val: string) {
  * @param val 확인할 값
  */
 export function validKorEng(val: string) {
-  return (/^([A-Za-z]|[가-힣]){2,100}$/.test(val));
+  return /^([A-Za-z]|[가-힣]){2,100}$/.test(val);
 }
 
 /**
@@ -78,8 +82,7 @@ export function validKorEng(val: string) {
  * @param val 확인할 값
  */
 export function validNumber(val: string) {
-  return validEmpty(val) &&
-    (/^\d{1,}$/).test(val);
+  return validEmpty(val) && /^\d{1,}$/.test(val);
   // isFinite(parseInt(val, 10));
 }
 
