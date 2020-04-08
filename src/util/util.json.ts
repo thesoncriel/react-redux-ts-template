@@ -1,7 +1,7 @@
 
 /**
- * 특정 값을 문자열 형태로 바꾼다.
- * 객체일 경우 문자열 형태로 직렬화 한다.
+ * 객체를 문자열 형태로 직렬화 한다.
+ * 만약 값이 문자열이면 그 값 그대로 돌려준다.
  * @param value
  */
 export function marshalJson(value: any) {

@@ -41,19 +41,19 @@ npm run deploy:prod
     - sprites : CSS Background Image Sprite 결과물.
 - src
     - common : 공용 모듈.
-        - components : 컴포넌트들. 
+        - components : 컴포넌트들.
         - contexts: 컴포넌트간의 전역 상태 관리를 위한 컨텍스트 내용들.
         - hoc : High Order Component 모음
         - model : 프로젝트 내 공용으로 쓰이는 각종 모델들.
-        - styles : 공용으로 쓰이는 부분 스타일을 정의한다. 
+        - styles : 공용으로 쓰이는 부분 스타일을 정의한다.
         - app.config.ts : 앱 내 환경변수를 객체로 제공하는 서비스.
-        - constants.ts : 앱 내에서 공통으로 쓰이는 각종 상수를 정의. 
+        - constants.ts : 앱 내에서 공통으로 쓰이는 각종 상수를 정의.
     - entries
         - routes.tsx : 각종 모듈에서 취합된 라우팅 정보를 모아 컴포넌트화 한 것. 모듈별 라우팅 정보가 있으면 여기에 합쳐 주어야 한다.
         - stores.ts : 각종 모듈에서 취합된 스토어 정보를 모아둔 곳. 미들웨어 설정도 여기서 한다.
     - factories : 각종 서비스를 만들기위한 팩토리들.
     - modules : 각 기능(feature)별 모듈 모음. 자세한 내용 아래 **모듈 구성요소** 참조
-        - _layout : 페이지 내 공통으로 쓰이는 header, footer 및 page container 등의 컴포넌트와 필요한 기능이 정의된 모듈. 
+        - _layout : 페이지 내 공통으로 쓰이는 header, footer 및 page container 등의 컴포넌트와 필요한 기능이 정의된 모듈.
         - root : 루트 경로(/)에 쓰이는 모듈.
         - {feature} : 특정 경로에서만 쓰이는 모듈.
     - styles
@@ -65,8 +65,8 @@ npm run deploy:prod
 
 가급적 기본 구조는 수정하지 아니하며 기능 추가나 변경이 필요하다면 상의하여 반영한다.
 
-### 모듈 구성요소 
-    
+### 모듈 구성요소
+
 모든 기능(feature)은 modules 내에 구성하며 각 module 의 구성요소는 다음과 같다.
 
 - actions : redux 에서 쓰이는 액션을 정의.
