@@ -29,45 +29,65 @@
 
 /**
  * 객체 내 조건에 따라 해당 키 값을 클래스명으로 만들어준다.
- * @param conditions 조건이 담긴 객체. 키가 클래스명, 값이 조건이 된다.
- * @param fixedClassNames 고정적으로 들어갈 클래스명
+ * @param conditions 조건이 담긴 값. 객체일 경우 키가 클래스명, 값이 조건이 된다.
  */
 export function getClassNamesBy(
   ...conditions: Array<
     | {
-        [className: string]: boolean | undefined;
-      }
+      [className: string]: boolean | undefined;
+    }
     | string
     | undefined
   >
 ) {
-  // fixedClassNames?: string | string[]
-  // const arr: string[] = [];
-  // const sAfterCN = getFixedClassNames(fixedClassNames);
+  let arg: string | undefined | {
+    [className: string]: boolean | undefined;
+  };
+  let keys: string[];
+  let keyLen: number;
+  let key: string;
+  const arr: string[] = [];
+  const len = conditions.length;
 
-  const arr = conditions.reduce<string[]>((acc, arg) => {
+  for (let i = 0; i < len; i++) {
+    arg = conditions[i];
     if (typeof arg === 'string') {
-      acc.push(arg);
+      arr.push(arg);
     } else if (typeof arg === 'object') {
-      Object.keys(arg).forEach((key) => {
+      keys = Object.keys(arg);
+      keyLen = keys.length;
+
+      for (let j = 0; j < keyLen; j++) {
+        key = keys[j];
         if (arg[key] === true) {
-          acc.push(key);
+          arr.push(key);
         }
-      });
+      }
     }
-    return acc;
-  }, [] as string[]);
+  }
 
   return arr.join(' ');
 
-  // if (arr.length === 0) {
-  //   return sAfterCN;
-  // }
-  // return arr.join(' ') + sAfterCN;
+  // scope chain 문제로 위의 코드로 코드 변경.
+  // const arr = conditions.reduce<string[]>((acc, arg) => {
+  //   if (typeof arg === 'string') {
+  //     acc.push(arg);
+  //   } else if (typeof arg === 'object') {
+  //     Object.keys(arg).forEach((key) => {
+  //       if (arg[key] === true) {
+  //         acc.push(key);
+  //       }
+  //     });
+  //   }
+  //   return acc;
+  // }, [] as string[]);
+
+  // return arr.join(' ');
 }
 /**
  * 객체 내 조건에 따라 해당 키 값을 클래스명으로 만들어준다.
  * @param conditions 조건이 담긴 객체. 키가 클래스명, 값이 조건이 된다.
+ * @alias getClassNamesBy
  */
 export const cn = getClassNamesBy;
 
