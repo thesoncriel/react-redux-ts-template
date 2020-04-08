@@ -1,4 +1,4 @@
-import React, { ComponentType, ReactNode } from 'react';
+import React, { ComponentType, ReactNode, FC } from 'react';
 
 /**
  * 특정 컴포넌트에서 노드 내부에 값이 없을 경우 기본값을 대신 출력하는 기능을 추가 한다.
@@ -9,7 +9,7 @@ export function hocDefaultChildren<P>(
   TargetComp: ComponentType<P>,
   def: string | ReactNode = '-',
 ) {
-  const Comp = (props: P & Readonly<{ children?: ReactNode }>) => {
+  const Comp: FC<P> = (props: P & Readonly<{ children?: ReactNode }>) => {
     return <TargetComp {...props}>{props.children || def}</TargetComp>;
   };
   return Comp;

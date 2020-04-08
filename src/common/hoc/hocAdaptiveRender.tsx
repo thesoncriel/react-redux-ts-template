@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ComponentType } from 'react';
 import { useIsMobile, useIsTablet } from '../contexts';
 
 /**
@@ -10,19 +10,19 @@ export interface AdaptiveRenderSettings<T> {
    *
    * 미설정  desktop 에서 보여지지 않는다.
    */
-  desktop?: FC<T>;
+  desktop?: FC<T> | ComponentType<T>;
   /**
    * 태블릿에서만 보여질 컴포넌트.
    *
    * 미설정 시 태블릿에서 보여지지 않는다.
    */
-  tablet?: FC<T>;
+  tablet?: FC<T> | ComponentType<T>;
   /**
    * 모바일 에서만 보여질 컴포넌트.
    *
    * 미설정 시 모바일에서 보여지지 않는다.
    */
-  mobile?: FC<T>;
+  mobile?: FC<T> | ComponentType<T>;
 }
 
 /**
@@ -67,7 +67,7 @@ export function hocAdaptiveRender<T>(settings: AdaptiveRenderSettings<T>) {
       mobile: MobileComp,
     } = settings;
 
-    let Comp: FC<T>;
+    let Comp: FC<T> | ComponentType<T>;
 
     if (isMobile && MobileComp) {
       Comp = MobileComp;
