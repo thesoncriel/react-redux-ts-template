@@ -8,7 +8,7 @@ const InitStyle = createGlobalStyle`
     box-sizing: border-box;
   }
   body {
-    color: #2c3744;
+    color: ${props => props.theme.color.text};
   }
   body, p, pre,
   h1, h2, h3, h4, h5, h6,
@@ -35,7 +35,7 @@ const InitStyle = createGlobalStyle`
     &:visited,
     &:hover,
     &:active {
-      color: inherit;
+      color: ${props => props.theme.color.tertiary};
       text-decoration: inherit;
     }
   }

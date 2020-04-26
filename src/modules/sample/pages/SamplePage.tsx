@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useQuery } from '../../../common/hooks';
 import { cleanUpNil } from '../../../util';
-import { PageContainer } from '../../_shared';
+import { PageContainer, LayoutContainer } from '../../_shared';
 import { SampleJumbotronContainer, SampleListContainer, SampleResetContainer } from '../containers';
 import { SampleQueryParams } from '../models';
 
@@ -14,9 +14,11 @@ export const SamplePage: FC = () => {
 
   return (
     <PageContainer title="샘플 목록">
-      <SampleJumbotronContainer />
-      <SampleListContainer queries={queries} />
-      <SampleResetContainer />
+      <LayoutContainer>
+        <SampleJumbotronContainer />
+        <SampleListContainer queries={queries} />
+        <SampleResetContainer />
+      </LayoutContainer>
     </PageContainer>
   );
 };

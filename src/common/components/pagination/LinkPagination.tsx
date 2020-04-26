@@ -66,10 +66,6 @@ export const LinkPagination: FC<Props> = ({
   params,
   onHref,
 }) => {
-  if (hide) {
-    return null;
-  }
-
   const maxPage = useMemo(() => calcMaxPage(totalCount, limit), [
     totalCount,
     limit,
@@ -79,6 +75,10 @@ export const LinkPagination: FC<Props> = ({
     () => createPages({ page, navCount: navCount || 5, maxPage }),
     [page, navCount, maxPage],
   );
+
+  if (hide) {
+    return null;
+  }
 
   const iPrevPage = page - 1 < 1 ? 1 : page - 1;
   const iNextPage = page + 1 >= maxPage ? maxPage : page + 1;

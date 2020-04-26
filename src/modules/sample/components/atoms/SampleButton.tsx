@@ -4,13 +4,14 @@ import { ButtonComponentProps } from '../../../../common/model';
 
 const StyledSampleButton = styled.button`
   padding: 1em;
-  border: 1px solid #888;
+  border: 1px solid ${props => props.theme.color.primaryDark};
   border-radius: 3px;
   transition: .1s background-color linear;
-  background-color: #e0e0e0;
-  
+  background-color: ${props => props.theme.color.primary};
+  color: #fff;
+
   &:hover {
-    background-color: #fff;
+    background-color: ${props => props.theme.color.primaryLight};
   }
 `;
 

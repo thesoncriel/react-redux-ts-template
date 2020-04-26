@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 /**
  * 설정 가능한 페이지 내 head 요소 모델.
@@ -17,14 +17,16 @@ export interface PageHeadProps {
  * @param title 페이지 제목
  * @constructor
  */
-export const PageHead: FC<PageHeadProps> = ({ title }) => {
-  if (title) {
+export const PageHead: FC<PageHeadProps> = ({ title: propTitle }) => {
+  const [
+    title
+  ] = useState(() => document.title);
+
+  document.title = propTitle ? propTitle : title;
+
+  useEffect(() => () => {
     document.title = title;
-  }
+  }, [title]);
 
   return null;
-};
-
-PageHead.defaultProps = {
-  title: '',
 };

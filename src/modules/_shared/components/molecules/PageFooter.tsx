@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { LayoutContainer } from '../atoms/LayoutContainer';
 
 const Footer = styled.footer`
-  background: ${props => props.theme.color.headerBg};
+  background: ${props => props.theme.color.footerBg};
 `;
 
 /**
