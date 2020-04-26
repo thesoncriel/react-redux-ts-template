@@ -11,9 +11,9 @@
     "build:prod": "npm run env:prod && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "env:dev": "cp ./environments/.env.dev ./.env",
-    "env:test": "cp ./environments/.env.test ./.env",
-    "env:prod": "cp ./environments/.env.production ./.env",
+    "env:dev": "gulp cp:dev",
+    "env:test": "gulp cp:test",
+    "env:prod": "gulp cp:production",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "sprite": "gulp makesprite"
   },
