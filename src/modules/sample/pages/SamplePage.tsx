@@ -1,10 +1,9 @@
 import React, { FC } from 'react';
-import { PageContainer } from '../../_layout/components';
-import { SampleListContainer } from '../containers/SampleListContainer';
-import { SampleJumbotronContainer, SampleResetContainer } from '../containers';
 import { useQuery } from '../../../common/hooks';
-import { SampleQueryParams } from '../models';
 import { cleanUpNil } from '../../../util';
+import { PageContainer } from '../../_shared';
+import { SampleJumbotronContainer, SampleListContainer, SampleResetContainer } from '../containers';
+import { SampleQueryParams } from '../models';
 
 /**
  * 샘플 페이지 컴포넌트.

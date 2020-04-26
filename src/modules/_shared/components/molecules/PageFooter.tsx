@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { LayoutContainer } from './LayoutContainer';
+import { LayoutContainer } from '../atoms/LayoutContainer';
 
 const Footer = styled.footer`
-  background: lightgray;
+  background: ${props => props.theme.color.headerBg};
 `;
 
 /**

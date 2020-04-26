@@ -1,9 +1,8 @@
-import { SampleListLoadParams } from '../models';
-import { staticApi } from '../../../common/services';
 import { ListRes } from '../../../common/model';
-import { SampleItemModel } from '../models/sample.model';
 import { compareSome } from '../../../util';
+import { publicApi } from '../../_shared';
 import { MSG_SAMPLE_LIST_LOAD_ERROR } from '../messages';
+import { SampleItemModel, SampleListLoadParams } from '../models';
 
 const filterSampleList = (params: SampleListLoadParams) => (
   res: ListRes<SampleItemModel>,
@@ -35,7 +34,7 @@ export const sampleApi = {
     }
 
     console.log('params', params);
-    return staticApi
+    return publicApi
       .get<ListRes<SampleItemModel>>('/data/sample-list.json')
       .then(filterSampleList(params));
   },

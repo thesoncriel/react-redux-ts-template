@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { PageContainer } from '../../_layout/components';
+import { PageContainer } from '../../_shared';
 import { Link } from 'react-router-dom';
 
 export const RootPage: FC = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ClassNameProps } from '../../../common/model';
-import { cssCenterBlock } from '../../../common/styles';
+import { ClassNameProps } from '../../../../common/model';
+import { cssCenterBlock } from '../../../../common/styles';
 
 interface Props extends ClassNameProps {
   /**
