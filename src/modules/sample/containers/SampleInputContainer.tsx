@@ -1,13 +1,15 @@
 import React, { FC } from 'react';
-import { PageContainer, LayoutContainer } from '../../_shared';
+import { LayoutContainer } from '../../_shared';
 
-
+/**
+ * 컨테이너: 샘플 입력부
+ */
 export const SampleInputContainer: FC = () => {
+  // const dispatch = useADispatch();
+  // const state = useSelector(selSampleItems);
+
   return (
-    <PageContainer title="입력 테스트">
-      <LayoutContainer>
-        호호하
-      </LayoutContainer>
-    </PageContainer>
+    <LayoutContainer>
+    </LayoutContainer>
   );
-}
+};
