@@ -1,37 +1,13 @@
-/* eslint-disable no-restricted-syntax, no-continue */
-
-// export function getClassNamesByProps(props: { active?: boolean, className?: string }) {
-//   const {
-//     active, className
-//   } = props;
-
-//   if (active && className) {
-//     return `active ${className}`;
-//   }
-//   if (active) {
-//     return 'active';
-//   }
-//   if (className) {
-//     return className;
-//   }
-
-//   return '';
-// }
-
-// function getFixedClassNames(cns?: string | string[]) {
-//   if (cns instanceof Array) {
-//     return ' ' + cns.join(' ');
-//   } else if (typeof cns === 'string') {
-//     return ' ' + cns;
-//   }
-//   return '';
-// }
-
 /**
  * 객체 내 조건에 따라 해당 키 값을 클래스명으로 만들어준다.
+ *
+ * 익히 알려진 classnames 라이브러리를 fork 하여 TypeScript 기반으로 다시 작성 한 것이다.
+ *
+ * 실사용은 cn 으로 사용하길 권장한다. (짧아서 쓰기 좋다.)
  * @param conditions 조건이 담긴 값. 객체일 경우 키가 클래스명, 값이 조건이 된다.
+ * @see https://github.com/JedWatson/classnames
  */
-export function getClassNamesBy(
+export function classnames(
   ...conditions: Array<
     | {
       [className: string]: boolean | undefined;
@@ -86,10 +62,34 @@ export function getClassNamesBy(
 }
 /**
  * 객체 내 조건에 따라 해당 키 값을 클래스명으로 만들어준다.
+ *
+ * @example
+ * import React, { FC } from 'react';
+ * import styled from 'styled-components';
+ * import { cn } '../util';
+ *
+ * interface Props {
+ *   disabled?: boolean;
+ *   active?: boolean;
+ * }
+ *
+ * const Input = styled.input`
+ *   &.disabled {
+ *     color: gray;
+ *   }
+ *   &.active {
+ *     border-color: light-blue;
+ *   }
+ * `;
+ *
+ * export const Comp: FC = ({ disabled, active }) => (
+ *   <Input className={cn({ disabled, active })} />
+ * );
+ *
  * @param conditions 조건이 담긴 객체. 키가 클래스명, 값이 조건이 된다.
- * @alias getClassNamesBy
+ * @alias classnames
  */
-export const cn = getClassNamesBy;
+export const cn = classnames;
 
 // function addDefProps<T>(body: T, defProps?: Partial<T>) {
 //   if (defProps) {
