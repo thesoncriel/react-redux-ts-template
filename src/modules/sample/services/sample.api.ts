@@ -1,7 +1,12 @@
 import { ListRes } from '../../../common/model';
-import { publicApi } from '../../_shared';
-import { SampleItemModel, SampleListLoadParams } from '../models';
-import { filterSampleList } from './sample.virtual-backend';
+import { bearerTokenProvider, publicApi } from '../../_shared';
+import {
+  SampleItemModel,
+  SampleListLoadParams,
+  SampleSigninParams,
+  SampleSigninRes,
+} from '../models';
+import { filterSampleList, signinProcess } from './sample.virtual-backend';
 
 /**
  * 샘플 페이지를 위한 API Service.
@@ -15,5 +20,16 @@ export const sampleApi = {
     return publicApi
       .get<ListRes<SampleItemModel>>('/data/sample-list.json')
       .then(filterSampleList(params));
+  },
+
+  /**
+   * 샘플 로그인을 수행한다.
+   * @param user 로그인 할 사용자 정보
+   */
+  signin(user: SampleSigninParams) {
+    return publicApi
+      .post<SampleSigninRes>('/data/signin.json', user)
+      .then(signinProcess(user))
+      .then(({ token }) => bearerTokenProvider.set(token));
   },
 };

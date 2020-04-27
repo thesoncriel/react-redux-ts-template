@@ -51,8 +51,3 @@ class LocalStorageTokenProvider implements ITokenProvider {
 export function tokenProviderFactory(key: string): ITokenProvider {
   return new LocalStorageTokenProvider(storageFactory<string>('local', key));
 }
-
-/**
- * 사용자용 베어러 토큰이 필요한 곳에 쓰인다.
- */
-export const bearerTokenProvider = tokenProviderFactory('__token');

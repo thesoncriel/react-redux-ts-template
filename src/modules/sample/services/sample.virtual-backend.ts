@@ -1,3 +1,7 @@
+import {
+  SampleSigninParams,
+  SampleSigninRes,
+} from './../models/sample-domain.model';
 import { ListRes } from '../../../common';
 import { compareSome } from '../../../util';
 import { MSG_SAMPLE_LIST_LOAD_ERROR } from '../messages';
@@ -13,7 +17,9 @@ export const filterSampleList = (params: SampleListLoadParams) => (
   loadCount++;
 
   if (loadCount % COUNT_LIMIT === 0) {
-    return Promise.reject(new Error(MSG_SAMPLE_LIST_LOAD_ERROR.replace('{n}', COUNT_LIMIT + '')));
+    return Promise.reject(
+      new Error(MSG_SAMPLE_LIST_LOAD_ERROR.replace('{n}', COUNT_LIMIT + '')),
+    );
   }
 
   console.log('params', params);
@@ -25,4 +31,14 @@ export const filterSampleList = (params: SampleListLoadParams) => (
     items,
     totalCount: res.totalCount,
   } as ListRes<SampleItemModel>;
+};
+
+export const signinProcess = (params: SampleSigninParams) => (
+  res: SampleSigninRes,
+) => {
+  if (params.userId !== 'codeshare' || params.userPw !== '1234') {
+    throw new Error('잘못된 로그인 정보 입니다!');
+  }
+
+  return res;
 };

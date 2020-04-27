@@ -1,6 +1,6 @@
 import { ActionType, createAction } from 'typesafe-actions';
 import { ErrorModel, InputChangeArgs, ListRes } from '../../../common/model';
-import { SampleItemModel } from '../models';
+import { SampleItemModel } from './../models';
 
 /**
  * 액션: 샘플 목록을 불러온다.

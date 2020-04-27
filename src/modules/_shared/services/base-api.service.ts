@@ -1,13 +1,13 @@
 import appConfig from '../../../common/app.config';
 import {
   apiFactory,
-  bearerTokenProvider,
   httpHeaderProvideFactory,
   pipeAppHeader,
   pipeBearerTokenHeader,
   pipeFormMultipartHeader,
   pipeJsonHeader,
 } from '../../../factories';
+import { bearerTokenProvider } from './token-provider.service';
 
 /**
  * 기본적인 요청 헤더를 만든다.

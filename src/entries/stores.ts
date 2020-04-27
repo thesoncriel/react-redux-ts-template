@@ -1,10 +1,10 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk, { ThunkMiddleware } from 'redux-thunk';
-import { sampleReducer } from '../modules/sample/reducers/sample.reducer';
+import { cmbSampleReducer } from '../modules/sample/reducers';
 import { trackingMiddleware } from '../common/middleware/tracking.middleware';
 
 const reducers = combineReducers({
-  sample: sampleReducer,
+  sample: cmbSampleReducer,
 });
 
 export type AppState = ReturnType<typeof reducers>;
