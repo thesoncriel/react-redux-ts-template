@@ -1,11 +1,5 @@
 /* eslint-disable react/display-name */
-import React, {
-  ComponentType,
-  FC,
-  memo,
-  MouseEventHandler,
-  useRef,
-} from 'react';
+import React, { ComponentType, memo, MouseEventHandler, useRef } from 'react';
 import { throttle } from '../../util';
 
 type SimpleEventHandler = () => void;
@@ -16,8 +10,11 @@ type SimpleEventHandler = () => void;
  * @param time debounce 할 시간 (ms). 기본 250
  */
 export function hocThrottledClick<
-  P extends { onClick?: MouseEventHandler<any> | SimpleEventHandler }
->(ButtonComp: ComponentType<P>, time = 250): FC<P> {
+  P extends {
+    onClick?: MouseEventHandler<HTMLButtonElement>
+    | SimpleEventHandler;
+  }
+>(ButtonComp: ComponentType<P>, time = 250): ComponentType<P> {
   return memo(props => {
     const handleClick = useRef(
       throttle(args => {

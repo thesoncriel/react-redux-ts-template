@@ -1,6 +1,5 @@
-import React, { ComponentType, memo } from 'react';
+import React, { ComponentType, memo, MouseEventHandler } from 'react';
 import { useADispatch } from '../../../common/hooks';
-import { ClickableReactElement } from '../../../common/model';
 
 /**
  * HOC: 샘플 클릭 트래커.
@@ -15,10 +14,10 @@ export function hocSampleClickTracker<P>(
   trackingName: string,
   TargetComp: ComponentType<P>,
 ) {
-  const Comp: ComponentType<P & ClickableReactElement> = props => {
+  const Comp: ComponentType<P> = props => {
     const dispatch = useADispatch();
 
-    const handleClick = (event: MouseEvent) => {
+    const handleClick: MouseEventHandler = event => {
       const { onClick } = props as any;
 
       dispatch({
