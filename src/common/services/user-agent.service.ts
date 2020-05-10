@@ -75,3 +75,16 @@ export function isIOS() {
 
   return /iPad|iPhone|iPad/.test(ua);
 }
+
+/**
+ * user-agent 정보를 이용하여 native app 여부를 판단한다.
+ */
+export function isNativeApp() {
+  const ua = userAgent;
+
+  if (!ua) {
+    return false;
+  }
+
+  return /NaviveApp/.test(ua);
+}

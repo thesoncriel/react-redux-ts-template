@@ -18,12 +18,44 @@ interface ThemeColorModel {
   footerBg: string;
 }
 
+/**
+ * 기기별 사이즈를 정해놓은 모델.
+ * 사용 단위는 px.
+ */
 interface ThemeDeviceSizeModel {
+  /**
+   * 작은 모바일 기기
+   *
+   * ex: iPhone 4S, iPhone 5
+   */
   mobileSm: string;
+  /**
+   * 일반적인 모바일 기기
+   *
+   * ex: iPhone 6 이상, Galaxy S5 이상
+   */
   mobile: string;
+  /**
+   * 작은 태블릿 기기
+   *
+   * ex: iPad Normal, iPad Mini, Nexus 7 등
+   */
   tabletSm: string;
+  /**
+   * 일반 태블릿 기기
+   *
+   * ex: iPad Pro
+   */
   tablet: string;
+  /**
+   * 작은 데스크탑, 혹은 큰 태블릿 기기
+   *
+   * ex: iPad Pro
+   */
   desktopSm: string;
+  /**
+   * 일반적인 데스크탑
+   */
   desktop: string;
 }
 
@@ -46,13 +78,19 @@ enum ThemeColorType {
   PRUSSIAN_BLUE = '#1D3557',
 }
 
-enum DeviceSizeType {
-  MOBILE_SM = '320px',
-  MOBILE = '481px',
-  TABLET_SM = '641px',
-  TABLET = '961px',
-  DESKTOP_SM = '1025px',
-  DESKTOP = '1280px',
+/**
+ * 기기별 사이즈를 정의한 것.
+ *
+ * 사이즈 참고:
+ * https://stackoverflow.com/questions/6370690/media-queries-how-to-target-desktop-tablet-and-mobile
+ */
+export enum DeviceSizeType {
+  MOBILE_SM = 320,
+  MOBILE = 481,
+  TABLET_SM = 641,
+  TABLET = 961,
+  DESKTOP_SM = 1025,
+  DESKTOP = 1280,
 }
 
 /**
@@ -77,12 +115,12 @@ export const theme: DefaultTheme = {
     footerBg: ThemeColorType.POWDER_BLUE,
   },
   deviceSize: {
-    mobileSm: DeviceSizeType.MOBILE_SM,
-    mobile: DeviceSizeType.MOBILE,
-    tabletSm: DeviceSizeType.TABLET_SM,
-    tablet: DeviceSizeType.TABLET,
-    desktopSm: DeviceSizeType.DESKTOP_SM,
-    desktop: DeviceSizeType.DESKTOP,
+    mobileSm: DeviceSizeType.MOBILE_SM + 'px',
+    mobile: DeviceSizeType.MOBILE + 'px',
+    tabletSm: DeviceSizeType.TABLET_SM + 'px',
+    tablet: DeviceSizeType.TABLET + 'px',
+    desktopSm: DeviceSizeType.DESKTOP_SM + 'px',
+    desktop: DeviceSizeType.DESKTOP + 'px',
   },
 }
 

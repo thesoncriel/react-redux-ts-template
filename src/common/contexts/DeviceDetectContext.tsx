@@ -1,17 +1,6 @@
-import React, {
-  createContext,
-  FC,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
-import { debounce } from '../../util';
+import React, { createContext, FC, useContext, useEffect, useState } from 'react';
+import { DeviceSizeType } from '../../styles';
 import { isMobile, isTablet } from '../services/user-agent.service';
-import {
-  DESKTOP_MIN_WIDTH,
-  TABLET_MIN_WIDTH,
-  TABLET_SMALL_MIN_WIDTH,
-} from '../../styles/constants/device-sizes';
 
 const isServer = typeof window === 'undefined';
 // const _isMobile = isServer ? false : /iPhone|iPod|android/.test(window.navigator.userAgent);
@@ -26,7 +15,7 @@ function getIsMobile(): boolean {
     return false;
   }
 
-  return isMobile() || window.innerWidth < TABLET_SMALL_MIN_WIDTH;
+  return isMobile() || window.innerWidth < DeviceSizeType.TABLET;
 }
 
 function getIsTablet(): boolean {
@@ -40,8 +29,8 @@ function getIsTablet(): boolean {
   }
   return (
     isTablet() ||
-    (window.innerWidth >= TABLET_SMALL_MIN_WIDTH &&
-      window.innerWidth <= TABLET_MIN_WIDTH)
+    (window.innerWidth >= DeviceSizeType.TABLET &&
+      window.innerWidth <= (DeviceSizeType.DESKTOP_SM - 1))
   );
 }
 
@@ -52,36 +41,46 @@ export const DeviceDetectContext = createContext([
 
 const { Provider: DeviceDetectProvider } = DeviceDetectContext;
 
+/**
+ * 컨텍스트: UserAgent 및 Resizing 여부에 따른 태블릿/모바일 여부를 판별 해 준다.
+ *
+ * 지정된 곳 이외에서는 사용치 않는다.
+ *
+ * 내부적으로 window.mediaQuery API를 사용한다.
+ *
+ * @see https://stackoverflow.com/questions/29046324/whats-the-most-reliable-way-to-integrate-javascript-with-media-queries
+ * @see https://jsperf.com/matchmedia-vs-resize/3
+ */
 export const DeviceDetectContextProvider: FC = ({ children }) => {
   const [isMobile, setIsMobile] = useState(getIsMobile());
   const [isTablet, setIsTablet] = useState(getIsTablet());
-
-  // const handle
 
   useEffect(() => {
     if (isServer) {
       return;
     }
 
-    const handleResize = debounce(() => {
-      const { innerWidth } = window;
-      const bIsMobile = innerWidth < TABLET_SMALL_MIN_WIDTH;
-      const bIsTablet =
-        !bIsMobile &&
-        innerWidth >= TABLET_SMALL_MIN_WIDTH &&
-        innerWidth < DESKTOP_MIN_WIDTH;
+    const mqMobile = window.matchMedia(
+      `screen and (max-width: ${DeviceSizeType.TABLET - 1}px)`);
+    const mqTablet = window.matchMedia(
+      `screen and (min-width: ${DeviceSizeType.TABLET
+      }px) and (max-width: ${DeviceSizeType.DESKTOP_SM - 1}px)`
+    );
 
-      setIsMobile(bIsMobile);
-      setIsTablet(bIsTablet);
+    const handleResizeForMobile = (e: MediaQueryListEvent) => {
+      setIsMobile(e.matches);
+    };
+    const handleResizeForTablet = (e: MediaQueryListEvent) => {
+      setIsTablet(e.matches);
+    };
 
-      // console.log('isMobile', bIsMobile, 'isTablet', bIsTablet, 'innerWidth', innerWidth);
-    }, 150);
+    mqMobile.addListener(handleResizeForMobile);
+    mqTablet.addListener(handleResizeForTablet);
 
-    window.addEventListener('resize', handleResize);
-
-    // handleResize();
-
-    return () => window.removeEventListener('resize', handleResize); // eslint-disable-line
+    return () => {
+      mqMobile.removeListener(handleResizeForMobile);
+      mqTablet.removeListener(handleResizeForTablet);
+    };
   }, []);
 
   return (
