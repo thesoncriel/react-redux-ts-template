@@ -42,37 +42,45 @@ export interface ISimpleStorage<T extends string | object> {
 }
 
 const memoryCache: HashMap<any> = {};
-const memoryCacheKeys: string[] = [];
+let memoryCacheKeys: string[] = [];
 const MEMORY_CACHE_MAX = 100;
 
 class MemorySimpleStorage<T extends string | object>
   implements ISimpleStorage<T> {
   constructor(readonly key: string) {
+  }
+
+  get(): T {
+    return (memoryCache[this.key] || null) as T;
+  }
+
+  set(value: T): void {
+    const key = this.key;
+
     if (memoryCacheKeys.length >= MEMORY_CACHE_MAX) {
-      const oldKey = memoryCacheKeys.pop();
+      const oldKey = memoryCacheKeys.shift();
 
       if (oldKey) {
         delete memoryCache[oldKey];
       }
     }
-  }
-
-  get(): T {
-    return memoryCache[this.key] as T;
-  }
-
-  set(value: T): void {
+    // eslint-disable-next-line no-prototype-builtins
+    if (!memoryCache.hasOwnProperty(key)) {
+      memoryCacheKeys.push(key);
+    }
     memoryCache[this.key] = value;
   }
 
   remove(): void {
     delete memoryCache[this.key];
+
+    memoryCacheKeys = memoryCacheKeys.filter(key => key !== this.key);
   }
 }
 
 class SimpleStorageAdapter<T extends string | object>
   implements ISimpleStorage<T> {
-  constructor(readonly key: string, private storage: Storage) {}
+  constructor(readonly key: string, private storage: Storage) { }
 
   get(): T {
     return unmarshalJson(this.storage.getItem(this.key)) as T;
@@ -102,10 +110,14 @@ export const storageFactory = <T extends string | object>(
   if (isServer() || !isStorageAvailable() || type === StorageType.MEMORY) {
     ret = new MemorySimpleStorage<T>(key);
   } else {
-    ret = new SimpleStorageAdapter<T>(
-      key,
-      type === StorageType.LOCAL ? localStorage : sessionStorage,
-    );
+    try {
+      ret = new SimpleStorageAdapter<T>(
+        key,
+        type === StorageType.LOCAL ? localStorage : sessionStorage,
+      );
+    } catch (error) {
+      ret = new MemorySimpleStorage<T>(key);
+    }
   }
 
   return ret;
