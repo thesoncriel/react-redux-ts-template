@@ -39,7 +39,7 @@ export function getInitSampleState(): SampleState {
   };
 }
 
-export const sampleReducer = createReducer<SampleState, SampleActions>(
+export const sampleBasicReducer = createReducer<SampleState, SampleActions>(
   getInitSampleState(),
 )
   .handleAction(actSampleListLoad, state => ({

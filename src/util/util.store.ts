@@ -13,13 +13,11 @@ export type AsyncDispatch<A extends AnyAction = AnyAction> = ThunkDispatch<
 /**
  * 비동기 액션을 수행하는 이펙트 함수를 만든다. 쿼리 인자가 필요하다.
  * - Q: 함께 전달될 페이로드 타입. 필요 없다면 generic 에 void 선언 하거나 생략한다.
- * - R: Promise 로 반환될 타입. 기본 void
  * - A: 지정할 Action 타입. 기본 AnyAction
  * @param fnProcess type 이 들어간 액션 객체를 비동기로 반환 해야 한다.
  */
 export function createEffect<
   Q = void,
-  R = any,
   A extends AnyAction = AnyAction
 >(
   fnProcess: (
