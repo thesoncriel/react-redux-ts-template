@@ -15,7 +15,7 @@ gulp.task('build', builder.build);
 /**
  * Elastic Beanstalk 수동 배포 환경에서 사용
  */
-gulp.task('deploy:test', deploy.deploy('test'));
+gulp.task('deploy:stage', deploy.deploy('stage'));
 gulp.task('deploy:prod', deploy.deploy('production'));
 
 /**

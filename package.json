@@ -4,15 +4,15 @@
   "private": true,
   "scripts": {
     "start": "npm run env:dev && react-scripts start",
-    "start:test": "npm run env:test && react-scripts start",
+    "start:stage": "npm run env:stage && react-scripts start",
     "start:prod": "npm run env:prod && react-scripts start",
     "build": "react-scripts build",
-    "build:test": "npm run env:test && react-scripts build",
+    "build:stage": "npm run env:stage && react-scripts build",
     "build:prod": "npm run env:prod && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "env:dev": "gulp cp:dev",
-    "env:test": "gulp cp:test",
+    "env:stage": "gulp cp:stage",
     "env:prod": "gulp cp:production",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "sprite": "gulp makesprite"

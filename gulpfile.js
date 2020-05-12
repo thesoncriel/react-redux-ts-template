@@ -7,7 +7,7 @@ const rename = require('gulp-rename');
 
 const aEnvStr = [
   'dev',
-  'test',
+  'stage',
   'production'
 ];
 

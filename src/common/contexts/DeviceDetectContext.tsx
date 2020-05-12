@@ -1,6 +1,6 @@
-import React, { createContext, FC, useContext, useEffect, useState } from 'react';
+import React, { createContext, FC, useContext, useEffect, useState, useMemo } from 'react';
 import { DeviceSizeType } from '../../styles';
-import { isMobile, isTablet } from '../services/user-agent.service';
+import { isMobile, isTablet, isNativeApp } from '../services/user-agent.service';
 
 const isServer = typeof window === 'undefined';
 // const _isMobile = isServer ? false : /iPhone|iPod|android/.test(window.navigator.userAgent);
@@ -37,6 +37,7 @@ function getIsTablet(): boolean {
 export const DeviceDetectContext = createContext([
   getIsMobile(),
   getIsTablet(),
+  isNativeApp(),
 ]);
 
 const { Provider: DeviceDetectProvider } = DeviceDetectContext;
@@ -54,6 +55,7 @@ const { Provider: DeviceDetectProvider } = DeviceDetectContext;
 export const DeviceDetectContextProvider: FC = ({ children }) => {
   const [isMobile, setIsMobile] = useState(getIsMobile());
   const [isTablet, setIsTablet] = useState(getIsTablet());
+  const isNative = useMemo(isNativeApp, []);
 
   useEffect(() => {
     if (isServer) {
@@ -84,7 +86,7 @@ export const DeviceDetectContextProvider: FC = ({ children }) => {
   }, []);
 
   return (
-    <DeviceDetectProvider value={[isMobile, isTablet]}>
+    <DeviceDetectProvider value={[isMobile, isTablet, isNative]}>
       {children}
     </DeviceDetectProvider>
   );
@@ -92,3 +94,4 @@ export const DeviceDetectContextProvider: FC = ({ children }) => {
 
 export const useIsMobile = () => useContext(DeviceDetectContext)[0];
 export const useIsTablet = () => useContext(DeviceDetectContext)[1];
+export const useIsNative = () => useContext(DeviceDetectContext)[2];

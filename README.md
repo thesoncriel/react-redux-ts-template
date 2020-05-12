@@ -27,7 +27,7 @@ npm start
 개발 배포
 
 ```sh
-npm run deploy:test
+npm run deploy:stage
 ```
 
 운영 배포
@@ -41,7 +41,7 @@ npm run deploy:prod
 - environments : 프로젝트 내 환경변수를 설정한다.
   - .env.dev : 개발 환경
   - .env.production : 운영 환경
-  - .env.test : 개발 환경
+  - .env.stage : 테스트용 스테이지 환경
 - public : 정적 에셋(static assets)은 여기에 둔다.
   - data : 정적 json 파일들. 비동기로 불러올 때 쓰인다.
   - images : 사이트에서 쓰이는 각종 이미지 파일을 여기에 둔다.

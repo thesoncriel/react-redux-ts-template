@@ -9,7 +9,7 @@ export interface AppConfig {
   /**
    * 테스트 서버 여부
    */
-  test: boolean;
+  stage: boolean;
   /**
    * 앱 버전
    */
@@ -75,7 +75,7 @@ export interface AppConfig {
 function getAppConfig(): AppConfig {
   const localStatic = 'http://localhost:3000';
   const production = process.env.REACT_APP_PRODUCTION === 'true';
-  const test = process.env.REACT_APP_TEST === 'true';
+  const stage = process.env.REACT_APP_STAGE === 'true';
   const cdnUrl = process.env.cdnUrl || localStatic;
   const version = process.env.version || '';
   const staticUrl = production ? cdnUrl : localStatic;
@@ -83,7 +83,7 @@ function getAppConfig(): AppConfig {
 
   return {
     production,
-    test,
+    stage,
     version,
     gaTrackingId: process.env.gaTrackingId || '',
     facebookAppId: process.env.facebookAppId || '',
