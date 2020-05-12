@@ -17,8 +17,10 @@ enum StorageType {
 
 /**
  * 간단한 스토리지를 구성할 때 쓰이는 인터페이스.
+ *
+ * 사용 가능한 타입은 string 이나 객체형이다.
  */
-export interface ISimpleStorage<T> {
+export interface ISimpleStorage<T extends string | object> {
   /**
    * 현재 스토리지가 사용하고 있는 키값.
    * get, set, remove 이용 시 지정된 키값을 자동으로 사용 한다.
@@ -43,7 +45,8 @@ const memoryCache: HashMap<any> = {};
 const memoryCacheKeys: string[] = [];
 const MEMORY_CACHE_MAX = 100;
 
-class MemorySimpleStorage<T> implements ISimpleStorage<T> {
+class MemorySimpleStorage<T extends string | object>
+  implements ISimpleStorage<T> {
   constructor(readonly key: string) {
     if (memoryCacheKeys.length >= MEMORY_CACHE_MAX) {
       const oldKey = memoryCacheKeys.pop();
@@ -67,7 +70,8 @@ class MemorySimpleStorage<T> implements ISimpleStorage<T> {
   }
 }
 
-class SimpleStorageAdapter<T> implements ISimpleStorage<T> {
+class SimpleStorageAdapter<T extends string | object>
+  implements ISimpleStorage<T> {
   constructor(readonly key: string, private storage: Storage) {}
 
   get(): T {
@@ -89,7 +93,7 @@ class SimpleStorageAdapter<T> implements ISimpleStorage<T> {
  * 사용 시 type, key 가 필요하며
  * 기본값은 각각 'sesson', '_' 이다.
  */
-export const storageFactory = <T>(
+export const storageFactory = <T extends string | object>(
   type: string = StorageType.SESSION,
   key = '_',
 ) => {
