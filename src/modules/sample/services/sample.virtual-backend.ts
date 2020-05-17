@@ -3,7 +3,7 @@ import {
   SampleSigninRes,
 } from './../models/sample-domain.model';
 import { ListRes } from '../../../common';
-import { compareSome } from '../../../util';
+import { compareSome, template } from '../../../util';
 import { MSG_SAMPLE_LIST_LOAD_ERROR } from '../messages';
 import { SampleItemModel, SampleListLoadParams } from '../models';
 
@@ -18,7 +18,7 @@ export const filterSampleList = (params: SampleListLoadParams) => (
 
   if (loadCount % COUNT_LIMIT === 0) {
     return Promise.reject(
-      new Error(MSG_SAMPLE_LIST_LOAD_ERROR.replace('{n}', COUNT_LIMIT + '')),
+      new Error(template(MSG_SAMPLE_LIST_LOAD_ERROR, COUNT_LIMIT + '')),
     );
   }
 

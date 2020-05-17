@@ -9,3 +9,4 @@ export * from './util.json';
 export * from './util.react';
 export * from './util.route';
 export * from './util.store';
+export * from './util.string';
