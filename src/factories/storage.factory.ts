@@ -98,8 +98,12 @@ class SimpleStorageAdapter<T extends string | object>
 /**
  * 캐시용 스토리지를 만드는 빌더.
  * Memory, Local, Session 3가지로 만들 수 있다.
- * 사용 시 type, key 가 필요하며
- * 기본값은 각각 'sesson', '_' 이다.
+ * 사용 시 type, key 가 필요하다.
+ *
+ * 만약 서버 환경이거나 스토리지를 이용 할 수 없을 경우, type 은 memory 로 강제된다.
+ *
+ * @param type 스토리지 타입. session, local, memory 중 하나. 기본 session.
+ * @param key 스토리지에서 쓰이는 키. 기본값은 '_' (underbar).
  */
 export const storageFactory = <T extends string | object>(
   type: string = StorageType.SESSION,
