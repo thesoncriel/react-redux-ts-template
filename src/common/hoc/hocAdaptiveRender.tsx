@@ -1,29 +1,6 @@
 import React, { FC, ComponentType } from 'react';
-import { useIsMobile, useIsTablet } from '../contexts';
-
-/**
- * 적응형 렌더링이 필요
- */
-export interface AdaptiveRenderSettings<T> {
-  /**
-   * 데스크탑에서만 보여질 컴포넌트.
-   *
-   * 미설정  desktop 에서 보여지지 않는다.
-   */
-  desktop?: FC<T> | ComponentType<T>;
-  /**
-   * 태블릿에서만 보여질 컴포넌트.
-   *
-   * 미설정 시 태블릿에서 보여지지 않는다.
-   */
-  tablet?: FC<T> | ComponentType<T>;
-  /**
-   * 모바일 에서만 보여질 컴포넌트.
-   *
-   * 미설정 시 모바일에서 보여지지 않는다.
-   */
-  mobile?: FC<T> | ComponentType<T>;
-}
+import { useIsMobile, useIsTablet, useIsNative } from '../contexts';
+import { AdaptiveRenderSettingModel } from '../model';
 
 /**
  * @description
@@ -57,19 +34,23 @@ export interface AdaptiveRenderSettings<T> {
  *
  * @param settings 적응형으로 설정할 컴포넌트들.
  */
-export function hocAdaptiveRender<T>(settings: AdaptiveRenderSettings<T>) {
+export function hocAdaptiveRender<T>(settings: AdaptiveRenderSettingModel<T>) {
   const FnComp: FC<T> = props => {
     const isMobile = useIsMobile();
     const isTablet = useIsTablet();
+    const isNative = useIsNative();
     const {
       desktop: DesktopComp,
       tablet: TabletComp,
       mobile: MobileComp,
+      native: NativeAppComp,
     } = settings;
 
     let Comp: FC<T> | ComponentType<T>;
 
-    if (isMobile && MobileComp) {
+    if (isNative && NativeAppComp) {
+      Comp = NativeAppComp;
+    } else if (isMobile && MobileComp) {
       Comp = MobileComp;
     } else if (isTablet && TabletComp) {
       Comp = TabletComp;
