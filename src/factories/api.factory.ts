@@ -9,6 +9,8 @@ import {
 } from '../common/model';
 import { getFileName, isServer } from '../util';
 
+// export type HttpApiMethod = <T = any>(url: string, params?: any) => Promise<T>;
+
 /**
  * HTTP 프로토콜을 이용하여 비동기 통신을 수행한다.
  */
@@ -18,34 +20,34 @@ export interface IHttpApi {
    * @param url 호출 경로
    * @param params 전달할 파라미터
    */
-  get<T = any>(url: string, params?: any): Promise<T>;
+  get<T = any, P = any>(url: string, params?: P): Promise<T>;
   /**
    * POST 메서드 호출
    * @param url 호출 경로. 만약 쿼리 파라미터가 포함된다면 이 곳에 추가적으로 명시 해 주어야 한다.
    * @param data body 요청으로 보낼 데이터. json 으로 바꿔서 보내게 된다.
    */
-  post<T = any>(url: string, data?: any): Promise<T>;
+  post<T = any, P = any>(url: string, data?: P): Promise<T>;
   /**
    * PUT 메서드 호출
    * @param url 호출 경로. 만약 쿼리 파라미터가 포함된다면 이 곳에 추가적으로 명시 해 주어야 한다.
    * @param data body 요청으로 보낼 데이터. json 으로 바꿔서 보내게 된다.
    */
-  put<T = any>(url: string, data?: any): Promise<T>;
+  put<T = any, P = any>(url: string, data?: P): Promise<T>;
   /**
    * DELETE 메서드 호출
    * @param url 호출 경로
    * @param params 전달할 파라미터
    */
-  delete<T = any>(url: string, params?: any): Promise<T>;
+  delete<T = any, P = any>(url: string, params?: P): Promise<T>;
   /**
    * POST 메서드로 업로드 한다.
    * @param url 업로드 경로
    * @param data 업로드에 쓰이는 데이터
    * @param progCallback 업로드 상황을 보내주는 콜백
    */
-  postUpload<T = any>(
+  postUpload<T = any, P = any>(
     url: string,
-    data: any,
+    data: P,
     progCallback?: (args: UploadStateArgs) => void,
   ): Promise<T>;
   /**
@@ -54,9 +56,9 @@ export interface IHttpApi {
    * @param data 업로드에 쓰이는 데이터
    * @param progCallback 업로드 상황을 보내주는 콜백
    */
-  putUpload<T = any>(
+  putUpload<T = any, P = any>(
     url: string,
-    data: any,
+    data: P,
     progCallback?: (args: UploadStateArgs) => void,
   ): Promise<T>;
   /**
@@ -65,7 +67,7 @@ export interface IHttpApi {
    * @param params 전달할 파라미터
    * @param filename 파일이 받아졌을 때 쓰여질 파일명.
    */
-  getFile(url: string, params?: any, filename?: string): Promise<File>;
+  getFile<P = any>(url: string, params?: P, filename?: string): Promise<File>;
 }
 
 function getError(message = '오류', status = 400): ErrorModel {
@@ -103,39 +105,40 @@ const uploadCommon = (
   url: string,
   data: any,
   progCallback?: (args: UploadStateArgs) => void,
-) => {
-  try {
-    const argsProgress: UploadStateArgs = {
-      progress: 0,
-      loaded: 0,
-      total: 0,
-      completed: false,
-    };
+  ) => {
+    try {
+      const argsProgress: UploadStateArgs = {
+        progress: 0,
+        loaded: 0,
+        total: 0,
+        completed: false,
+      };
 
-    const headers = headerProvider();
+      const headers = headerProvider();
 
-    return axios(baseUrl + url, {
-      method,
-      headers,
-      data,
-      onUploadProgress: (progressEvent: any) => {
-        const args = argsProgress;
-        args.progress =
-          Math.floor((progressEvent.loaded * 1000) / progressEvent.total) / 10;
-        args.loaded = progressEvent.loaded;
-        args.total = progressEvent.total;
+      return axios(baseUrl + url, {
+        method,
+        headers,
+        data,
+        onUploadProgress: (progressEvent: any) => {
+          const args = argsProgress;
+          args.progress =
+            Math.floor(
+              (progressEvent.loaded * 1000) / progressEvent.total) / 10;
+          args.loaded = progressEvent.loaded;
+          args.total = progressEvent.total;
 
-        if (progCallback) {
-          progCallback(args);
-        }
-      },
-    })
-      .then((res: any) => axiosResponseToData<T>(res))
-      .catch(axiosErrorResToData);
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
+          if (progCallback) {
+            progCallback(args);
+          }
+        },
+      })
+        .then((res: any) => axiosResponseToData<T>(res))
+        .catch(axiosErrorResToData);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
 
 /**
  * Backend 에서 API를 호출하는 서비스를 생성한다.

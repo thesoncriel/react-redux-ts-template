@@ -123,7 +123,7 @@ const TEST_CASES_OBJECT: TestCaseModel[] = [
     result: '을 모으면 이 이뤄질까',
   },
   {
-    desc: '객체 필드에 boolean(true)가 있으면 무시한다.',
+    desc: '객체 필드에 boolean 타입이 있으면 무시한다.',
     text: '어라? {{value}} 일까요? {{rice}} 일까요?',
     data: {
       value: true,

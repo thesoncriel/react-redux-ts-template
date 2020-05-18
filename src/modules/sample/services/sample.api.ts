@@ -7,6 +7,7 @@ import {
   SampleSigninRes,
 } from '../models';
 import { filterSampleList, signinProcess } from './sample.virtual-backend';
+import { cache } from '../../../decorators';
 
 /**
  * 샘플 페이지를 위한 API Service.
@@ -17,8 +18,9 @@ export const sampleApi = {
    * @param params
    */
   loadList(params: SampleListLoadParams) {
-    return publicApi
-      .get<ListRes<SampleItemModel>>('/data/sample-list.json')
+    const fetch = cache('session')<ListRes<SampleItemModel>>(publicApi.get);
+
+    return fetch('/data/sample-list.json', params)
       .then(filterSampleList(params));
   },
 
