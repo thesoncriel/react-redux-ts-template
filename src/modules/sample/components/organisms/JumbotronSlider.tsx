@@ -1,7 +1,7 @@
-import React, { FC, createRef, useEffect } from 'react';
+import React, { createRef, FC } from 'react';
 import Slider from 'react-slick';
-import { Jumbotron } from '../molecules';
 import { serializeParams } from '../../../../util';
+import { Jumbotron } from '../molecules';
 import { JumbotronListProps } from './JumbotronList';
 
 /**
@@ -9,22 +9,16 @@ import { JumbotronListProps } from './JumbotronList';
  * @param props
  */
 export const JumbotronSlider: FC<JumbotronListProps> = props => {
-  const refSlider = createRef<any>();
+  const refSlider = createRef<Slider>();
 
-  useEffect(() => {
+  const handleSwipe = () => {
     if (refSlider.current) {
-      refSlider.current.innerSlider.clickable = true;
-    }
-  }, [refSlider]);
-
-  const handleSwipe = (e: any) => {
-    if (refSlider.current) {
-      refSlider.current.innerSlider.clickable = true;
+      (refSlider.current as any).innerSlider.clickable = true;
     }
   };
 
   return (
-    <Slider swipeToSlide={true} onSwipe={handleSwipe} ref={refSlider}>
+    <Slider swipeToSlide onSwipe={handleSwipe} ref={refSlider}>
       {props.items.map((datum, idx) => (
         <Jumbotron
           key={idx}
