@@ -54,7 +54,7 @@
       "/**",
       " * 컨테이너: ${10:설명}",
       " */",
-      "export const SampleInputContainer: FC<$1> = () => {",
+      "export const $TM_FILENAME_BASE: FC<$1> = () => {",
       "  const dispatch = useADispatch();",
       "  const state = useSelector(${2:selSampleItems});",
       "",
