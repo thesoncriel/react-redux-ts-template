@@ -28,7 +28,7 @@ class LocalStorageTokenProvider implements ITokenProvider {
   private _token = '';
 
   constructor(private storage: ISimpleStorage<string>) {
-    this._token = this.storage.get();
+    this._token = this.storage.get() || '';
   }
 
   get() {

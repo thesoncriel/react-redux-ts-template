@@ -6,7 +6,7 @@ import {
   ErrorRes,
   HashMap,
   UploadStateArgs,
-} from '../common/model';
+} from '../common/models';
 import { getFileName, isServer } from '../util';
 
 // export type HttpApiMethod = <T = any>(url: string, params?: any) => Promise<T>;
@@ -105,40 +105,39 @@ const uploadCommon = (
   url: string,
   data: any,
   progCallback?: (args: UploadStateArgs) => void,
-  ) => {
-    try {
-      const argsProgress: UploadStateArgs = {
-        progress: 0,
-        loaded: 0,
-        total: 0,
-        completed: false,
-      };
+) => {
+  try {
+    const argsProgress: UploadStateArgs = {
+      progress: 0,
+      loaded: 0,
+      total: 0,
+      completed: false,
+    };
 
-      const headers = headerProvider();
+    const headers = headerProvider();
 
-      return axios(baseUrl + url, {
-        method,
-        headers,
-        data,
-        onUploadProgress: (progressEvent: any) => {
-          const args = argsProgress;
-          args.progress =
-            Math.floor(
-              (progressEvent.loaded * 1000) / progressEvent.total) / 10;
-          args.loaded = progressEvent.loaded;
-          args.total = progressEvent.total;
+    return axios(baseUrl + url, {
+      method,
+      headers,
+      data,
+      onUploadProgress: (progressEvent: any) => {
+        const args = argsProgress;
+        args.progress =
+          Math.floor((progressEvent.loaded * 1000) / progressEvent.total) / 10;
+        args.loaded = progressEvent.loaded;
+        args.total = progressEvent.total;
 
-          if (progCallback) {
-            progCallback(args);
-          }
-        },
-      })
-        .then((res: any) => axiosResponseToData<T>(res))
-        .catch(axiosErrorResToData);
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  };
+        if (progCallback) {
+          progCallback(args);
+        }
+      },
+    })
+      .then((res: any) => axiosResponseToData<T>(res))
+      .catch(axiosErrorResToData);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
 
 /**
  * Backend 에서 API를 호출하는 서비스를 생성한다.
@@ -217,11 +216,11 @@ export const apiFactory = (
     ): Promise<T> {
       const formData = new FormData();
 
-      Object.keys(data).forEach((key) => {
+      Object.keys(data).forEach(key => {
         const value = data[key];
 
         if (value instanceof Array) {
-          value.forEach((val) => {
+          value.forEach(val => {
             const file: File = val;
             formData.append(key, file, file.name);
           });
@@ -239,11 +238,11 @@ export const apiFactory = (
     ): Promise<T> {
       const formData = new FormData();
 
-      Object.keys(data).forEach((key) => {
+      Object.keys(data).forEach(key => {
         const value = data[key];
 
         if (value instanceof Array) {
-          value.forEach((val) => {
+          value.forEach(val => {
             const file: File = val;
             formData.append(key, file, file.name);
           });
@@ -265,7 +264,7 @@ export const apiFactory = (
             responseType: 'blob',
           })
           .then(axiosResponseToData)
-          .then((blob) => new File([blob], filename || getFileName(url)))
+          .then(blob => new File([blob], filename || getFileName(url)))
           .catch(axiosErrorResToData);
       } catch (error) {
         return Promise.reject(error);

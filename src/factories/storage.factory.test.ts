@@ -1,5 +1,5 @@
 import { storageFactory, ISimpleStorage } from './storage.factory';
-import { makeNumberArray } from '../util';
+import { makeNumberArray, timeout } from '../util';
 
 function createMockStorage(): Storage {
   let data: { [key: string]: string } = {};
@@ -500,5 +500,42 @@ describe('storage factory : memory mode', () => {
   });
   describe(`in server environment: 서버 환경에서는 무조건 메모리 모드로 동작 된다.`, () => {
     doCheck(true, 'local');
+  });
+});
+
+describe('expired time test', () => {
+  const KEY = 'expired_test';
+
+  function doCheck(type: string) {
+    it(`expired - mode=${type}: 자료를 설정하고 지정된 시간이 지나면 값이 존재하지 않아야 한다.`, async done => {
+      const sto = storageFactory<TestModel>(type, KEY, 1);
+      const origin: TestModel = {
+        name: 'thorn',
+        age: 30,
+        isYouth: false,
+      };
+
+      sto.set(origin);
+
+      await timeout(300);
+
+      expect(sto.get()).toEqual(origin);
+
+      await timeout(800);
+
+      expect(sto.get()).toBeNull();
+
+      done();
+    });
+  }
+
+  describe('type: session', () => {
+    doCheck('session');
+  });
+  describe('type: local', () => {
+    doCheck('local');
+  });
+  describe('type: memory', () => {
+    doCheck('memory');
   });
 });
