@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import styled from 'styled-components';
 import { cn } from '../../../util';
-import { PageChangeArgs, PaginationLinkMakeModel } from '../../model';
+import { PageChangeArgs, PaginationLinkMakeModel } from '../../models';
 import { calcMaxPage, createPages } from './Pagination.services';
 import { PagingItemLink } from './PagingItemLink';
 

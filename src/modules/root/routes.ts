@@ -1,4 +1,4 @@
-import { RouteModel } from '../../common/model';
+import { RouteModel } from '../../common/models';
 import { RootPage } from './pages/RootPage';
 
 export const rootRoutes: RouteModel[] = [

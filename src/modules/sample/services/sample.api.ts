@@ -1,4 +1,4 @@
-import { ListRes } from '../../../common/model';
+import { ListRes } from '../../../common/models';
 import { bearerTokenProvider, publicApi } from '../../_shared';
 import {
   SampleItemModel,
@@ -20,8 +20,9 @@ export const sampleApi = {
   loadList(params: SampleListLoadParams) {
     const fetch = cache('session')<ListRes<SampleItemModel>>(publicApi.get);
 
-    return fetch('/data/sample-list.json', params)
-      .then(filterSampleList(params));
+    return fetch('/data/sample-list.json', params).then(
+      filterSampleList(params),
+    );
   },
 
   /**

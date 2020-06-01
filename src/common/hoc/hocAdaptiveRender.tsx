@@ -1,6 +1,6 @@
 import React, { FC, ComponentType } from 'react';
 import { useIsMobile, useIsTablet, useIsNative } from '../contexts';
-import { AdaptiveRenderSettingModel } from '../model';
+import { AdaptiveRenderSettingModel } from '../models';
 
 /**
  * @description
@@ -54,7 +54,7 @@ export function hocAdaptiveRender<T>(settings: AdaptiveRenderSettingModel<T>) {
       Comp = MobileComp;
     } else if (isTablet && TabletComp) {
       Comp = TabletComp;
-    } else if ((!isMobile && !isTablet) && DesktopComp) {
+    } else if (!isMobile && !isTablet && DesktopComp) {
       Comp = DesktopComp;
     } else {
       return null;

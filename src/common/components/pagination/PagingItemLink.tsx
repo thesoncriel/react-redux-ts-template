@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { cn, serializeParams } from '../../../util';
-import { PaginationLinkMakeModel } from '../../model';
+import { PaginationLinkMakeModel } from '../../models';
 import { PagingItemInner } from './PagingItemInner';
 
 export const COLOR_BLACK = '#2c3744';
@@ -106,7 +106,7 @@ const Anchor = styled.a`
   ${anchorStyle}
 `;
 
-export const PagingItemLink: React.FC<Props> = (props) => {
+export const PagingItemLink: React.FC<Props> = props => {
   const {
     active,
     className,

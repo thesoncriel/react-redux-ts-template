@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { HashMap, InputChangeArgs } from '../common/model';
+import { HashMap, InputChangeArgs } from '../common/models';
 import { AppState } from '../entries/stores';
 
 export type AsyncDispatch<A extends AnyAction = AnyAction> = ThunkDispatch<
@@ -16,10 +16,7 @@ export type AsyncDispatch<A extends AnyAction = AnyAction> = ThunkDispatch<
  * - A: 지정할 Action 타입. 기본 AnyAction
  * @param fnProcess type 이 들어간 액션 객체를 비동기로 반환 해야 한다.
  */
-export function createEffect<
-  Q = void,
-  A extends AnyAction = AnyAction
->(
+export function createEffect<Q = void, A extends AnyAction = AnyAction>(
   fnProcess: (
     payload: Q,
     dispatch: AsyncDispatch<A>,

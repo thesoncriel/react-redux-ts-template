@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { RouteModel } from '../common/model';
+import { RouteModel } from '../common/models';
 import { AsyncGuardComponent } from '../common/components/AsyncGuardComponent';
 import { routes } from './routes';
 
@@ -11,12 +11,14 @@ const fnRouteRender = (route: RouteModel) => (props: RouteComponentProps) => {
     return <Redirect to={route.redirect} />;
   }
   if (route.guard) {
-    return <AsyncGuardComponent
-      {...props}
-      loader={route.guard}
-      succComponent={route.component}
-      failComponent={RouteFail}
-    />;
+    return (
+      <AsyncGuardComponent
+        {...props}
+        loader={route.guard}
+        succComponent={route.component}
+        failComponent={RouteFail}
+      />
+    );
   }
 
   return <route.component {...props} />;

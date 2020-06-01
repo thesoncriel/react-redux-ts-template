@@ -1,5 +1,5 @@
 import { ActionType, createAction } from 'typesafe-actions';
-import { ErrorModel, InputChangeArgs, ListRes } from '../../../common/model';
+import { ErrorModel, InputChangeArgs, ListRes } from '../../../common/models';
 import { SampleItemModel } from './../models';
 
 /**

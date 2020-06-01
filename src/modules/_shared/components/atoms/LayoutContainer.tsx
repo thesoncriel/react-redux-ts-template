@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ClassNameProps } from '../../../../common/model';
+import { ClassNameProps } from '../../../../common/models';
 import { cssCenterBlock } from '../../../../common/styles';
 
 interface Props extends ClassNameProps {
@@ -15,7 +15,7 @@ interface Props extends ClassNameProps {
  */
 export const Div = styled.div<Props>`
   ${cssCenterBlock};
-  position: ${props => props.relative ? 'relative' : 'static'};
+  position: ${props => (props.relative ? 'relative' : 'static')};
 `;
 
 /**
@@ -24,6 +24,4 @@ export const Div = styled.div<Props>`
  * 반응형으로 동작되며 화면 크기에 따라 알맞은 여백을 자동으로 적용한다.
  * @param param0
  */
-export const LayoutContainer: React.FC<Props> = props => (
-  <Div {...props} />
-);
+export const LayoutContainer: React.FC<Props> = props => <Div {...props} />;

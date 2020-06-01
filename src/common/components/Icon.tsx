@@ -1,6 +1,6 @@
 import React from 'react';
 import { CSSProperties } from 'styled-components';
-import { ClassNameProps } from '../model';
+import { ClassNameProps } from '../models';
 
 interface Props extends ClassNameProps {
   /**

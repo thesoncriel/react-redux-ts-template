@@ -1,4 +1,4 @@
-import { HashMap } from '../common/model';
+import { HashMap } from '../common/models';
 
 /**
  * 특정 길이를 이용하여 숫자로 이뤄진 배열을 만든다.
@@ -83,7 +83,7 @@ export function arrayToMap<T>(arr: T[], field: string): HashMap<T> {
 export function mapToArray<T>(
   map: HashMap<T>,
 ): Array<{ key: string; value: T }> {
-  return Object.keys(map).map((key) => {
+  return Object.keys(map).map(key => {
     return {
       key,
       value: map[key],
@@ -99,7 +99,7 @@ export function mapToArray<T>(
 export function toKeyValuePairs<T = any>(
   data: any,
 ): Array<{ key: string; value: T }> {
-  return Object.keys(data).map((key) => {
+  return Object.keys(data).map(key => {
     return {
       key,
       value: data[key] as T,
@@ -114,7 +114,7 @@ export function toKeyValuePairs<T = any>(
 export function flatArray<T>(arr: T[][]): T[] {
   const aRet: T[] = [];
 
-  arr.forEach((subArr) => Array.prototype.push.apply(aRet, subArr));
+  arr.forEach(subArr => Array.prototype.push.apply(aRet, subArr));
 
   return aRet;
 }

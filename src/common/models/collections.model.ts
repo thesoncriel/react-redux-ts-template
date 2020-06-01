@@ -8,6 +8,22 @@ export interface HashMap<T> {
 }
 
 /**
+ * 유효기간이 있는 스토리지 데이터 모델.
+ */
+export interface ExpirableStorageModel<T> {
+  /**
+   * 최대 유효시간. Unix Time Stamp 값을 기준으로 기록한다.
+   *
+   * Date.prototype.getTime 값에 대응한다.
+   */
+  expiredTime: number;
+  /**
+   * 보관된 자료
+   */
+  data: T;
+}
+
+/**
  * 라우트 모델. 라우팅 설정 시 사용한다.
  */
 export interface RouteModel {
