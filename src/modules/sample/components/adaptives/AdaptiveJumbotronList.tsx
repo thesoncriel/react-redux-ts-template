@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { JumbotronList, JumbotronListProps } from '../organisms/JumbotronList';
-import { hocAdaptiveRender } from '../../../../common/hoc';
+import { withAdaptiveRender } from '../../../../common/hoc';
 import { JumbotronSlider } from '../organisms/JumbotronSlider';
 
 const TabletOnly: FC<JumbotronListProps> = () => (
@@ -11,7 +11,7 @@ const TabletOnly: FC<JumbotronListProps> = () => (
  * 적응형: 점보트론 컴포넌트를 출력한다.
  * @param props
  */
-export const AdaptiveJumbotronList = hocAdaptiveRender<JumbotronListProps>({
+export const AdaptiveJumbotronList = withAdaptiveRender<JumbotronListProps>({
   desktop: JumbotronList,
   tablet: TabletOnly,
   mobile: JumbotronSlider,

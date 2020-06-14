@@ -10,7 +10,7 @@ import { useADispatch } from '../../../common/hooks';
  *
  * @see trackingMiddleware
  */
-export function hocSampleClickTracker<P>(
+export function withSampleClickTracker<P>(
   trackingName: string,
   TargetComp: ComponentType<P>,
 ) {

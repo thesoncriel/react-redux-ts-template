@@ -34,7 +34,7 @@ import { AdaptiveRenderSettingModel } from '../models';
  *
  * @param settings 적응형으로 설정할 컴포넌트들.
  */
-export function hocAdaptiveRender<T>(settings: AdaptiveRenderSettingModel<T>) {
+export function withAdaptiveRender<T>(settings: AdaptiveRenderSettingModel<T>) {
   const FnComp: FC<T> = props => {
     const isMobile = useIsMobile();
     const isTablet = useIsTablet();

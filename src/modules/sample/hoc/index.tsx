@@ -1,1 +1,1 @@
-export * from './hocSampleClickTracker';
+export * from './withSampleClickTracker';

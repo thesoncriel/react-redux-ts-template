@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { hocSampleClickTracker } from '../hoc';
+import { withSampleClickTracker } from '../hoc';
 import { SampleButton } from '../components';
 import { useHistory } from 'react-router';
-import { hocThrottledClick } from '../../../common/hoc';
+import { withThrottledClick } from '../../../common/hoc';
 
-const TrackedButton = hocThrottledClick(
-  hocSampleClickTracker('resetButton', SampleButton),
+const TrackedButton = withThrottledClick(
+  withSampleClickTracker('resetButton', SampleButton),
 );
 
 /**

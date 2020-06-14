@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { hocSampleClickTracker } from '../../hoc';
+import { withSampleClickTracker } from '../../hoc';
 
 export interface JumbotronBottomLinkProps {
   /**
@@ -17,7 +17,7 @@ const StyledLink = styled(Link)`
   background: #eee;
 `;
 
-const TrackedLink = hocSampleClickTracker('linkClick', StyledLink);
+const TrackedLink = withSampleClickTracker('linkClick', StyledLink);
 
 /**
  * 점보트론 하단 링크를 표현한다.

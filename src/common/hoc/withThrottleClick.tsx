@@ -9,7 +9,7 @@ type SimpleEventHandler = () => void;
  * @param ButtonComp 대상 컴포넌트.
  * @param time debounce 할 시간 (ms). 기본 250
  */
-export function hocThrottledClick<
+export function withThrottledClick<
   P extends {
     onClick?: MouseEventHandler<HTMLButtonElement>
     | SimpleEventHandler;

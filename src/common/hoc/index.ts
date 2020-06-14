@@ -1,3 +1,3 @@
-export * from './hocAdaptiveRender';
-export * from './hocDefaultChildren'
-export * from './hocThrottleClick';
+export * from './withAdaptiveRender';
+export * from './withDefaultChildren'
+export * from './withThrottleClick';

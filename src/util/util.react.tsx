@@ -7,7 +7,7 @@ import { CSSProperties } from 'styled-components';
  * @param CellComp 컴포넌트
  * @param def
  */
-export function hocAlignCell<
+export function withAlignCell<
   P extends { align?: 'inherit' | 'left' | 'center' | 'right' | 'justify' }
 >(
   CellComp: ComponentType<P>,

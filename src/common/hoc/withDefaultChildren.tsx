@@ -5,7 +5,7 @@ import React, { ComponentType, ReactNode, FC } from 'react';
  * @param TargetComp 기본값이 적용될 컴포넌트
  * @param def 출력될 기본값. 미 지정시 기본값은 바 (-)
  */
-export function hocDefaultChildren<P>(
+export function withDefaultChildren<P>(
   TargetComp: ComponentType<P>,
   def: string | ReactNode = '-',
 ) {
