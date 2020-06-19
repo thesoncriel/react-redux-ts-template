@@ -1,4 +1,4 @@
-import { storageFactory, ISimpleStorage } from './storage.factory';
+import { storageFactory, SimpleStorage } from './storage.factory';
 import { makeNumberArray, timeout } from '../util';
 
 function createMockStorage(): Storage {
@@ -115,7 +115,7 @@ describe('storage factory', () => {
     describe('check: string', () => {
       const KEY = 'skbt';
       const VALUE = 'blah-blah';
-      let sto: ISimpleStorage<string>;
+      let sto: SimpleStorage<string>;
 
       beforeEach(() => {
         sto = storageFactory<string>(type, KEY);
@@ -144,7 +144,7 @@ describe('storage factory', () => {
 
     describe('check: string array', () => {
       const KEY = 'skbt_arr';
-      let sto: ISimpleStorage<string[]>;
+      let sto: SimpleStorage<string[]>;
 
       beforeEach(() => {
         sto = storageFactory<string[]>(type, KEY);
@@ -184,7 +184,7 @@ describe('storage factory', () => {
       }
 
       const KEY = 'obj_people';
-      let sto: ISimpleStorage<TestModel>;
+      let sto: SimpleStorage<TestModel>;
 
       beforeEach(() => {
         sto = storageFactory<TestModel>(type, KEY);
@@ -219,7 +219,7 @@ describe('storage factory', () => {
 
     describe('check: object array', () => {
       const KEY = 'obj_people_arr';
-      let sto: ISimpleStorage<TestModel[]>;
+      let sto: SimpleStorage<TestModel[]>;
 
       beforeEach(() => {
         sto = storageFactory<TestModel[]>(type, KEY);
@@ -298,7 +298,7 @@ describe('storage factory : memory mode', () => {
     describe('check: string', () => {
       const KEY = 'skbt';
       const VALUE = 'blah-blah';
-      let sto: ISimpleStorage<string>;
+      let sto: SimpleStorage<string>;
 
       beforeEach(() => {
         sto = storageFactory<string>(type, KEY);
@@ -325,7 +325,7 @@ describe('storage factory : memory mode', () => {
 
     describe('check: string array', () => {
       const KEY = 'skbt_arr';
-      let sto: ISimpleStorage<string[]>;
+      let sto: SimpleStorage<string[]>;
 
       beforeEach(() => {
         sto = storageFactory<string[]>(type, KEY);
@@ -363,7 +363,7 @@ describe('storage factory : memory mode', () => {
       }
 
       const KEY = 'obj_people';
-      let sto: ISimpleStorage<TestModel>;
+      let sto: SimpleStorage<TestModel>;
 
       beforeEach(() => {
         sto = storageFactory<TestModel>(type, KEY);
@@ -396,7 +396,7 @@ describe('storage factory : memory mode', () => {
 
     describe('check: object array', () => {
       const KEY = 'obj_people_arr';
-      let sto: ISimpleStorage<TestModel[]>;
+      let sto: SimpleStorage<TestModel[]>;
 
       beforeEach(() => {
         sto = storageFactory<TestModel[]>(type, KEY);

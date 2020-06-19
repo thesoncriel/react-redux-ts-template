@@ -1,4 +1,10 @@
-import { MouseEventHandler, Dispatch, FC, ComponentType } from 'react';
+import {
+  ComponentType,
+  Dispatch,
+  FC,
+  MouseEventHandler,
+  SetStateAction,
+} from 'react';
 import { HashMap } from './collections.model';
 import { InputChangeArgs, PageChangeArgs } from './events.model';
 
@@ -205,7 +211,7 @@ export interface InvalidMessagesModel {
  */
 export type ContextInteractor<S = any, E = any> = (
   state: S,
-  dispatch: Dispatch<S>,
+  dispatch: Dispatch<Partial<S>>,
 ) => E;
 
 /**
@@ -219,7 +225,7 @@ export interface ContextState<T> {
   /**
    * 컨텍스트 상태를 변경하기 위한 메서드.
    */
-  dispatch: (state: T) => void;
+  dispatch: Dispatch<SetStateAction<T>>;
 }
 
 /**

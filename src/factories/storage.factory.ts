@@ -20,7 +20,7 @@ enum StorageType {
  *
  * 사용 가능한 타입은 string 이나 객체형이다.
  */
-export interface ISimpleStorage<T extends string | object> {
+export interface SimpleStorage<T extends string | object> {
   /**
    * 현재 스토리지가 사용하고 있는 키값.
    * get, set, remove 이용 시 지정된 키값을 자동으로 사용 한다.
@@ -46,7 +46,7 @@ let memoryCacheKeys: string[] = [];
 const MEMORY_CACHE_MAX = 100;
 
 class MemorySimpleStorage<T extends string | object>
-  implements ISimpleStorage<T> {
+  implements SimpleStorage<T> {
   constructor(readonly key: string) {}
 
   get(): T {
@@ -78,7 +78,7 @@ class MemorySimpleStorage<T extends string | object>
 }
 
 class SimpleStorageAdapter<T extends string | object>
-  implements ISimpleStorage<T> {
+  implements SimpleStorage<T> {
   constructor(readonly key: string, private storage: Storage) {}
 
   get(): T {
@@ -95,9 +95,9 @@ class SimpleStorageAdapter<T extends string | object>
 }
 
 class ExpirableStorageAdapter<T extends string | object>
-  implements ISimpleStorage<T> {
+  implements SimpleStorage<T> {
   constructor(
-    private storage: ISimpleStorage<ExpirableStorageModel<T>>,
+    private storage: SimpleStorage<ExpirableStorageModel<T>>,
     public expiredTime = 0,
   ) {}
 
@@ -166,8 +166,8 @@ export const storageFactory = <T extends string | object>(
   type: string = StorageType.SESSION,
   key = '_',
   expiredTime = 0,
-): ISimpleStorage<T> => {
-  let ret: ISimpleStorage<T>;
+): SimpleStorage<T> => {
+  let ret: SimpleStorage<T>;
 
   if (expiredTime > 0) {
     return new ExpirableStorageAdapter<T>(

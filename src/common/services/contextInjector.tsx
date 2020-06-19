@@ -4,6 +4,7 @@ import React, {
   Dispatch,
   FC,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 
@@ -12,7 +13,7 @@ import {
   ContextInteractor,
   ContextState,
 } from '../models';
-import { nop } from '../util';
+import { nop } from '../../util';
 
 /**
  * 상태 관리에 이용할 컨텍스트와 이를 이용하기 위한 각종 컴포넌트와 훅(hooks)을 만들어서 제공한다.
@@ -26,22 +27,40 @@ export function contextInjector<T, IT>(
   interactor: ContextInteractor<T, IT>,
 ): ContextInjectorResult<T, IT> {
   const InjectedContext = createContext<ContextState<T>>({
-    state: initState,
     dispatch: nop,
+    state: initState,
   });
 
   const ContextProvider = InjectedContext.Provider;
+  // let isAleadyUsed = false;
+  let cachedState: T | null = null;
+  let cachedInteractor: IT | null = null;
 
   const CtxProvider: FC = ({ children }) => {
-    const [state, dispatch] = useState(initState);
+    const [state, dispatch] = useState({ ...initState });
+
+    useEffect(() => {
+      // TODO: 같은 컨텍스트는 중복 사용이 안되도록 기능 추가 필요함.
+      // TODO: 테스트 코드 작성하여 안정성이 인정되면 주석을 풀고 배포 할 것.
+      // if (isAleadyUsed) {
+      //   throw new Error('Context is aleady used.');
+      // }
+      // isAleadyUsed = true;
+      return () => {
+        // isAleadyUsed = false;
+        cachedState = null;
+      };
+    }, []);
+
+    cachedState = state;
 
     return (
-      <ContextProvider value={{ state, dispatch }}>{children}</ContextProvider>
+      <ContextProvider value={{ dispatch, state }}>{children}</ContextProvider>
     );
   };
 
-  const withCtx = function <P>(Comp: ComponentType<P>) {
-    const ReturnComp: FC<P> = (props) => {
+  const withCtx = function<P>(Comp: ComponentType<P>) {
+    const ReturnComp: FC<P> = props => {
       return (
         <CtxProvider>
           <Comp {...props} />
@@ -52,7 +71,7 @@ export function contextInjector<T, IT>(
     return ReturnComp;
   };
 
-  const useCtxSelector = function <R>(selector: (state: T) => R) {
+  const useCtxSelector = function<R>(selector: (state: T) => R) {
     const { state } = useContext(InjectedContext);
 
     return selector(state);
@@ -67,22 +86,43 @@ export function contextInjector<T, IT>(
   const useCtxDispatch = () => {
     const { dispatch } = useContext(InjectedContext);
 
-    return dispatch;
+    return (currState: Partial<T>) => {
+      dispatch((prevState: T) => ({
+        ...prevState,
+        ...currState,
+      }));
+    };
   };
 
   const useInteractor = (): IT => {
     const { state, dispatch } = useContext(InjectedContext);
 
-    return interactor(state, dispatch);
+    useEffect(
+      () => () => {
+        cachedInteractor = null;
+      },
+      [],
+    );
+
+    if (cachedInteractor === null || state !== cachedState) {
+      cachedInteractor = interactor(state, (currState: Partial<T>) => {
+        dispatch((prevState: T) => ({
+          ...prevState,
+          ...currState,
+        }));
+      });
+    }
+
+    return cachedInteractor;
   };
 
   return {
     CtxProvider,
-    withCtx,
+    useCtxDispatch,
     useCtxSelector,
     useCtxSelectorAll,
-    useCtxDispatch,
     useInteractor,
+    withCtx,
   };
 }
 
@@ -128,7 +168,7 @@ export function combineInteractors<S, E1, E2>(
   inter1: ContextInteractor<S, E1>,
   inter2: ContextInteractor<S, E2>,
 ): ContextInteractor<S, E1 & E2> {
-  return (state: S, dispatch: Dispatch<S>) => ({
+  return (state: S, dispatch: Dispatch<Partial<S>>) => ({
     ...inter1(state, dispatch),
     ...inter2(state, dispatch),
   });

@@ -7,7 +7,7 @@ import { tap, isServer } from '../util';
 const FORCE_NOT_CACHE = false;
 
 type CacheDecorator = <T extends string | object, P = any>(
-  fn: (url: string, params?: P) => Promise<T>
+  fn: (url: string, params?: P) => Promise<T>,
 ) => (url: string, params?: P) => Promise<T>;
 
 function createKey<P = any>(url: string, params?: any) {
@@ -21,14 +21,18 @@ function createKey<P = any>(url: string, params?: any) {
  * 스토리지를 이용한 API 캐시를 적용한다.
  *
  * @param type local, session, memory 셋 중 하나. 기본 local.
+ * @param expiredTime 캐시가 만료되는 시간(seconds). 0 이하면 무제한. 기본 0.
  */
-export function cache(type?: 'local' | 'session' | 'memory'): CacheDecorator {
+export function cache(
+  type?: 'local' | 'session' | 'memory',
+  expiredTime = 0,
+): CacheDecorator {
   if (isServer() || FORCE_NOT_CACHE) {
     /**
      * 캐시가 적용된 함수.
      */
     return <T extends string | object, P = any>(
-      fn: (url: string, params?: P) => Promise<T>
+      fn: (url: string, params?: P) => Promise<T>,
     ) => (url: string, params?: P) => fn(url, params);
   }
 
@@ -37,18 +41,21 @@ export function cache(type?: 'local' | 'session' | 'memory'): CacheDecorator {
    * @param fn API 함수
    */
   const cacheDecorator = <T extends string | object, P = any>(
-    fn: (url: string, params?: P) => Promise<T>
+    fn: (url: string, params?: P) => Promise<T>,
   ) => {
     return (url: string, params?: P) => {
-      const storage = storageFactory<T>(type, createKey<P>(url, params));
+      const storage = storageFactory<T>(
+        type,
+        createKey<P>(url, params),
+        expiredTime,
+      );
       const value = storage.get();
 
       if (value) {
         return Promise.resolve(value);
       }
 
-      return fn(url, params)
-        .then(tap(data => storage.set(data)));
+      return fn(url, params).then(tap(data => storage.set(data)));
     };
   };
 

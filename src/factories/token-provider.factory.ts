@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 /* eslint-disable no-underscore-dangle */
-import { ISimpleStorage, storageFactory } from './storage.factory';
+import { SimpleStorage, storageFactory } from './storage.factory';
 
 /**
  * 토큰을 제공한다.
@@ -27,7 +27,7 @@ export interface ITokenProvider {
 class LocalStorageTokenProvider implements ITokenProvider {
   private _token = '';
 
-  constructor(private storage: ISimpleStorage<string>) {
+  constructor(private storage: SimpleStorage<string>) {
     this._token = this.storage.get() || '';
   }
 
