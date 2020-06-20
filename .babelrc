@@ -1,9 +1,4 @@
 {
-  "presets": [
-    "next/babel",
-    "@zeit/next-typescript/babel"
-  ],
-  "plugins": [
-    "styled-components"
-  ]
+  "presets": ["next/babel", "@zeit/next-typescript/babel"],
+  "plugins": ["styled-components", "react-hot-loader/babel"]
 }
