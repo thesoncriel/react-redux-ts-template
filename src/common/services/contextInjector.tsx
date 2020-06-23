@@ -32,7 +32,7 @@ export function contextInjector<T, IT>(
   });
 
   const ContextProvider = InjectedContext.Provider;
-  // let isAleadyUsed = false;
+  let isAleadyUsed = false;
   let cachedState: T | null = null;
   let cachedInteractor: IT | null = null;
 
@@ -45,9 +45,9 @@ export function contextInjector<T, IT>(
       // if (isAleadyUsed) {
       //   throw new Error('Context is aleady used.');
       // }
-      // isAleadyUsed = true;
+      isAleadyUsed = true;
       return () => {
-        // isAleadyUsed = false;
+        isAleadyUsed = false;
         cachedState = null;
       };
     }, []);
@@ -105,12 +105,18 @@ export function contextInjector<T, IT>(
     );
 
     if (cachedInteractor === null || state !== cachedState) {
-      cachedInteractor = interactor(state, (currState: Partial<T>) => {
-        dispatch((prevState: T) => ({
-          ...prevState,
-          ...currState,
-        }));
-      });
+      cachedInteractor = interactor(
+        () => cachedState || state,
+        (currState: Partial<T>) => {
+          if (!isAleadyUsed) {
+            return;
+          }
+          dispatch((prevState: T) => ({
+            ...prevState,
+            ...currState,
+          }));
+        },
+      );
     }
 
     return cachedInteractor;
@@ -168,7 +174,7 @@ export function combineInteractors<S, E1, E2>(
   inter1: ContextInteractor<S, E1>,
   inter2: ContextInteractor<S, E2>,
 ): ContextInteractor<S, E1 & E2> {
-  return (state: S, dispatch: Dispatch<Partial<S>>) => ({
+  return (state: () => S, dispatch: Dispatch<Partial<S>>) => ({
     ...inter1(state, dispatch),
     ...inter2(state, dispatch),
   });

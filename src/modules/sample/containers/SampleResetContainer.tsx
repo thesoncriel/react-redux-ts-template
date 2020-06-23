@@ -17,5 +17,5 @@ export const SampleResetContainer: FC = () => {
 
   const handleClick = () => history.push('/sample');
 
-  return <TrackedButton onClick={handleClick}>되돌리기</TrackedButton>;
+  return <TrackedButton onClick={handleClick}>되돌리기~!!</TrackedButton>;
 };

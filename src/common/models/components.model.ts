@@ -210,7 +210,7 @@ export interface InvalidMessagesModel {
  * 컨텍스트의 상태값을 바탕으로 업무 로직을 구성할 때 쓰이는 인터렉터(Interactor).
  */
 export type ContextInteractor<S = any, E = any> = (
-  state: S,
+  state: () => S,
   dispatch: Dispatch<Partial<S>>,
 ) => E;
 
@@ -255,7 +255,7 @@ export interface ContextInjectorResult<T, IT> {
   /**
    * 컨텍스트용 디스패치. 변경된 상태 전체를 넘기면 컨텍스트에 반영된다.
    */
-  useCtxDispatch: Dispatch<T>;
+  useCtxDispatch: () => Dispatch<Partial<T>>;
   /**
    * 컨텍스트용 인터렉터. 액션 및 데이터 호출, 조작 및 디스패치등의 기능을 가진 객체를 가져와 사용할 수 있다.
    */
