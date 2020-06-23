@@ -208,7 +208,7 @@ const ValueContainer: FC<IdProps> = ({ id, children }) => {
 
   const handleValue = () => {
     if (state.value > 10) {
-      inter.plusValue(-2);
+      inter.plusValue(-1);
     } else {
       inter.plusValue(3);
     }
@@ -268,15 +268,16 @@ describe('context injector', () => {
     });
 
     it('useCtxSelector 사용 시 상태값을 원하는 값으로 변환하여 줄 수 있다.', () => {
+      const ctxSub = contextInjector(getInitCtxState(), () => ({}));
       const selIsOldBoy = jest.fn((state: CtxState) => {
         return state.age > 30;
       });
       const SubTestContainer: FC = () => {
-        const isOldBoy = ctx.useCtxSelector(selIsOldBoy);
+        const isOldBoy = ctxSub.useCtxSelector(selIsOldBoy);
 
         return <h1>나는 {isOldBoy ? '영감탱 ㅠㅠ' : '아직 청년 ^.^)v'}</h1>;
       };
-      const SubTestWithCtx = ctx.withCtx(SubTestContainer);
+      const SubTestWithCtx = ctxSub.withCtx(SubTestContainer);
       const mountSubTarget = mount(<SubTestWithCtx />);
       const childResult = mountSubTarget.find('h1');
 
@@ -291,9 +292,10 @@ describe('context injector', () => {
     });
 
     it('dispatch 하여 상태값을 바꿀 수 있다.', () => {
+      const ctxSub = contextInjector(getInitCtxState(), () => ({}));
       const SubTestContainer: FC = () => {
-        const state = ctx.useCtxSelectorAll();
-        const dispatch = ctx.useCtxDispatch();
+        const state = ctxSub.useCtxSelectorAll();
+        const dispatch = ctxSub.useCtxDispatch();
 
         const handleClick = () => {
           dispatch({
@@ -303,7 +305,7 @@ describe('context injector', () => {
 
         return <section onClick={handleClick}>{state.age}</section>;
       };
-      const SubTestWithCtx = ctx.withCtx(SubTestContainer);
+      const SubTestWithCtx = ctxSub.withCtx(SubTestContainer);
       const mountTarget = mount(<SubTestWithCtx />);
       let childResult = mountTarget.find('section');
 
@@ -663,8 +665,6 @@ describe('context injector', () => {
         target.find(getSelector(ID3, 'load')).simulate('click', {});
         // -> await 를 안했기 때문에 반영 안된다.
 
-        // await timeout(400);
-
         target.find(getSelector(ID4, 'value')).simulate('click', {});
         // -> 9
         target.find(getSelector(ID2, 'value')).simulate('click', {});
@@ -675,8 +675,8 @@ describe('context injector', () => {
 
       target = target.mount();
 
-      const heroItems1 = target.find(`#${ID}`).find(HeroItem);
-      const heroItems2 = target.find(`#${ID3}`).find(HeroItem);
+      let heroItems1 = target.find(`#${ID}`).find(HeroItem);
+      let heroItems2 = target.find(`#${ID3}`).find(HeroItem);
       const valueCont1 = target.find(`#${ID2}`).find(ValuePrint);
       const valueCont2 = target.find(`#${ID4}`).find(ValuePrint);
 
@@ -701,7 +701,73 @@ describe('context injector', () => {
           .text(),
       ).toEqual('-1');
 
+      await act(async () => {
+        await timeout(400);
+        target = target.mount();
+      });
+
+      heroItems1 = target.find(`#${ID}`).find(HeroItem);
+      heroItems2 = target.find(`#${ID3}`).find(HeroItem);
+
+      expect(heroItems1.at(0).text()).toEqual(getHeroItemStr(sampleList[0]));
+      expect(heroItems1.at(1).text()).toEqual(getHeroItemStr(sampleList[1]));
+      expect(heroItems1.at(2).text()).toEqual(getHeroItemStr(sampleList[2]));
+
+      expect(heroItems2.at(0).text()).toEqual(getHeroItemStr(sampleList[0]));
+      expect(heroItems2.at(1).text()).toEqual(getHeroItemStr(sampleList[1]));
+      expect(heroItems2.at(2).text()).toEqual(getHeroItemStr(sampleList[2]));
+
       target.unmount();
+
+      done();
+    });
+
+    it('unmount 후 dispatch 명령은 무시된다.', async done => {
+      let target = mountTarget;
+
+      await act(async () => {
+        target.find(getSelector(ID, 'load')).simulate('click', {});
+
+        await timeout(50);
+
+        target = target.mount();
+      });
+
+      expect(target.find(`#${ID}`).find(HeroItem)).toHaveLength(0);
+
+      target.unmount();
+
+      const spy = jest.spyOn(console, 'log');
+
+      await act(async () => {
+        await timeout(400);
+      });
+
+      expect(spy).toBeCalled();
+      expect(spy).lastCalledWith('canceled');
+
+      done();
+    });
+
+    it('provider 를 여러번 쓸 경우 경고를 띄운다.', async done => {
+      const spy = jest.spyOn(console, 'warn');
+      const ctx = contextInjector(getInitCtxState(), () => ({}));
+      const Container1 = ctx.withCtx(HeroesContainer);
+      const Container2 = ctx.withCtx(ValueContainer);
+      const Container3 = ctx.withCtx(HeroesContainer);
+
+      const target1 = mount(<Container1 id="s1" />);
+      const target2 = mount(<Container2 id="s2" />);
+      const target3 = mount(<Container3 id="s3" />);
+
+      await timeout(100);
+
+      expect(spy).toBeCalledTimes(2);
+      expect(spy).toBeCalledWith('Context is aleady used!');
+
+      target1.unmount();
+      target2.unmount();
+      target3.unmount();
 
       done();
     });

@@ -14,6 +14,7 @@ import {
   ContextState,
 } from '../models';
 import { nop } from '../../util';
+import appConfig from '../app.config';
 
 /**
  * 상태 관리에 이용할 컨텍스트와 이를 이용하기 위한 각종 컴포넌트와 훅(hooks)을 만들어서 제공한다.
@@ -40,11 +41,9 @@ export function contextInjector<T, IT>(
     const [state, dispatch] = useState({ ...initState });
 
     useEffect(() => {
-      // TODO: 같은 컨텍스트는 중복 사용이 안되도록 기능 추가 필요함.
-      // TODO: 테스트 코드 작성하여 안정성이 인정되면 주석을 풀고 배포 할 것.
-      // if (isAleadyUsed) {
-      //   throw new Error('Context is aleady used.');
-      // }
+      if (isAleadyUsed && console && console.warn) {
+        console.warn('Context is aleady used!');
+      }
       isAleadyUsed = true;
       return () => {
         isAleadyUsed = false;
@@ -109,6 +108,9 @@ export function contextInjector<T, IT>(
         () => cachedState || state,
         (currState: Partial<T>) => {
           if (!isAleadyUsed) {
+            if (appConfig.development) {
+              console.log('canceled');
+            }
             return;
           }
           dispatch((prevState: T) => ({
