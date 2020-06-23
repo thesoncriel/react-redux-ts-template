@@ -1,4 +1,4 @@
-import Enzyme, { mount, shallow } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React, { FC, useEffect, Dispatch } from 'react';
 import { act } from 'react-dom/test-utils';
@@ -231,13 +231,6 @@ function getSelector(id: string, type: 'load' | 'update' | 'value') {
 function getHeroItemStr(item: TestCompProps) {
   return `${item.name}:${item.age}:${item.likeCounts}`;
 }
-let logs: string[] = [];
-// function log(...args: string[]) {
-//   logs.push(args.join(','));
-// }
-// function clearLog() {
-//   logs = [];
-// }
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -251,11 +244,7 @@ describe('context injector', () => {
     };
 
     const ContainerWithCtx = ctx.withCtx(TestContainer);
-    let mountTarget: Enzyme.ReactWrapper<
-      any,
-      Readonly<{}>,
-      React.Component<{}, {}, any>
-    >;
+    let mountTarget: ReturnType<typeof mount>;
 
     beforeEach(() => {
       mountTarget = mount(<ContainerWithCtx />);
@@ -383,11 +372,7 @@ describe('context injector', () => {
       );
     };
     const TestWithCtx = ctx.withCtx(TestContainer);
-    let mountTarget: Enzyme.ReactWrapper<
-      any,
-      Readonly<{}>,
-      React.Component<{}, {}, any>
-    >;
+    let mountTarget: ReturnType<typeof mount>;
 
     const initState = getInitCtxState();
     const cases: Array<[string, CtxState]> = [
@@ -463,7 +448,7 @@ describe('context injector', () => {
         );
       }
 
-      cases.forEach(args => test.apply(null, args));
+      cases.forEach(args => test(...args));
     });
 
     it('여러곳에서 dispatch 가 연속으로 이뤄져도 의도대로 상태가 변경되어 있다.', () => {
@@ -580,7 +565,6 @@ describe('context injector', () => {
       name: '복털이-after!!',
     };
     let index = 0;
-    let mockItem: TestCompProps;
 
     const handleUpdateGetter = () => {
       const ret = {
@@ -610,11 +594,7 @@ describe('context injector', () => {
       );
     });
 
-    let mountTarget: Enzyme.ReactWrapper<
-      any,
-      Readonly<{}>,
-      React.Component<{}, {}, any>
-    >;
+    let mountTarget: ReturnType<typeof mount>;
 
     beforeEach(() => {
       mountTarget = mount(<TestContainer />);
