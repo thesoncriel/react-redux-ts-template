@@ -1,7 +1,8 @@
+import React, { Dispatch, FC, useEffect } from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import React, { FC, useEffect, Dispatch } from 'react';
 import { act } from 'react-dom/test-utils';
+
 import { contextInjector } from './contextInjector';
 import { timeout } from '../../util';
 
@@ -27,10 +28,10 @@ interface CtxState extends TestCompProps {
 
 function getInitCtxState(): CtxState {
   return {
-    name: '쏜쌤',
     age: 29,
     likeCounts: 30000,
     loading: false,
+    name: '쏜쌤',
   };
 }
 
@@ -42,26 +43,26 @@ interface InterTestState {
 
 function getInitInterTestState(): InterTestState {
   return {
-    value: 100,
     items: [],
     loading: false,
+    value: 100,
   };
 }
 const sampleList: TestCompProps[] = [
   {
-    name: '소닉-변경전',
     age: 12,
     likeCounts: 1000,
+    name: '소닉-변경전',
   },
   {
-    name: '테일즈-변경전',
     age: 11,
     likeCounts: 1004,
+    name: '테일즈-변경전',
   },
   {
-    name: '너클즈-변경전',
     age: 13,
     likeCounts: 999,
+    name: '너클즈-변경전',
   },
 ];
 
@@ -99,15 +100,6 @@ const sampleInteractor = (
       });
     }
   },
-  updateHero(index: number, item: TestCompProps) {
-    const items = state().items.concat([]);
-
-    items[index] = { ...item };
-
-    dispatch({
-      items,
-    });
-  },
   async plusValue(plusValue: number) {
     try {
       const value = await sampleApi.plusValue(state().value, plusValue);
@@ -120,6 +112,15 @@ const sampleInteractor = (
         value: -1,
       });
     }
+  },
+  updateHero(index: number, item: TestCompProps) {
+    const items = state().items.concat([]);
+
+    items[index] = { ...item };
+
+    dispatch({
+      items,
+    });
   },
 });
 
@@ -177,7 +178,7 @@ const HeroesContainer: FC<HeroesContainerProps> = ({
   const inter = ctxSample.useInteractor();
 
   const handleLoad = () => {
-    inter.loadHeroes();
+    void inter.loadHeroes();
   };
   const handleUpdate = () => {
     if (!onUpdateGetter) {
@@ -191,10 +192,10 @@ const HeroesContainer: FC<HeroesContainerProps> = ({
   return (
     <div>
       <HeroList id={id} items={state.items} />
-      <button type="button" id={`btn${id}_load`} onClick={handleLoad}>
+      <button id={`btn${id}_load`} type="button" onClick={handleLoad}>
         불러오기
       </button>
-      <button type="button" id={`btn${id}_update`} onClick={handleUpdate}>
+      <button id={`btn${id}_update`} type="button" onClick={handleUpdate}>
         업데이트
       </button>
       {children}
@@ -208,16 +209,16 @@ const ValueContainer: FC<IdProps> = ({ id, children }) => {
 
   const handleValue = () => {
     if (state.value > 10) {
-      inter.plusValue(-1);
+      void inter.plusValue(-1);
     } else {
-      inter.plusValue(3);
+      void inter.plusValue(3);
     }
   };
 
   return (
     <>
       <ValuePrint id={id} value={state.value} />
-      <button type="button" id={`btn${id}_value`} onClick={handleValue}>
+      <button id={`btn${id}_value`} type="button" onClick={handleValue}>
         3 더하기 고고씽
       </button>
       {children}
@@ -247,7 +248,7 @@ describe('context injector', () => {
     let mountTarget: ReturnType<typeof mount>;
 
     beforeEach(() => {
-      mountTarget = mount(<ContainerWithCtx />);
+      mountTarget = mount(<ContainerWithCtx />) as ReturnType<typeof mount>;
     });
 
     afterEach(() => {
@@ -303,15 +304,19 @@ describe('context injector', () => {
           });
         };
 
-        return <section onClick={handleClick}>{state.age}</section>;
+        return (
+          <button type="button" onClick={handleClick}>
+            {state.age}
+          </button>
+        );
       };
       const SubTestWithCtx = ctxSub.withCtx(SubTestContainer);
       const mountTarget = mount(<SubTestWithCtx />);
-      let childResult = mountTarget.find('section');
+      let childResult = mountTarget.find('button');
 
       expect(childResult.prop('children')).toEqual(getInitCtxState().age);
       childResult.simulate('click', {});
-      childResult = mountTarget.find('section');
+      childResult = mountTarget.find('button');
       expect(childResult.prop('children')).toEqual(37);
 
       mountTarget.unmount();
@@ -337,8 +342,8 @@ describe('context injector', () => {
 
       const handleToSonic = () => {
         dispatch({
-          name: '쏘닉',
           age: 12,
+          name: '쏘닉',
         });
       };
 
@@ -346,6 +351,7 @@ describe('context injector', () => {
         dispatch({
           loading: true,
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
       return (
@@ -413,15 +419,15 @@ describe('context injector', () => {
         '#btnToSonic',
         {
           ...initState,
-          name: '쏘닉',
           age: 12,
           likeCounts: initState.likeCounts + 1,
+          name: '쏘닉',
         },
       ],
     ];
 
     beforeEach(() => {
-      mountTarget = mount(<TestWithCtx />);
+      mountTarget = mount(<TestWithCtx />) as ReturnType<typeof mount>;
     });
 
     afterEach(() => {
@@ -503,9 +509,9 @@ describe('context injector', () => {
     it('interactor 를 이용하여 자료를 변경 하면 반영된다.', async done => {
       const ID = 'heroes';
       const mockItem = {
-        name: '쏜쌤',
         age: 29,
         likeCounts: 5000,
+        name: '쏜쌤',
       };
       const TestContainer = ctxSample.withCtx(HeroesContainer);
       let mountTarget = mount(
@@ -547,19 +553,19 @@ describe('context injector', () => {
     const ID4 = 'kakao';
     const mockItems: TestCompProps[] = [
       {
-        name: '닥터에그만-after',
         age: 50,
         likeCounts: 0,
+        name: '닥터에그만-after',
       },
       {
-        name: '블레이즈-after',
         age: 20,
         likeCounts: 20,
+        name: '블레이즈-after',
       },
       {
-        name: '쏜쌤-after',
         age: 29,
         likeCounts: 5000,
+        name: '쏜쌤-after',
       },
     ];
     const otherMockItem = {
@@ -597,14 +603,31 @@ describe('context injector', () => {
     });
 
     let mountTarget: ReturnType<typeof mount>;
+    // eslint-disable-next-line no-console
+    const originalConsoleWran = console.warn;
+    // eslint-disable-next-line no-console
+    const originalConsoleLog = console.log;
+    const mockLog = jest.fn();
+    const mockWarn = jest.fn();
 
     beforeEach(() => {
-      mountTarget = mount(<TestContainer />);
+      mountTarget = mount(<TestContainer />) as ReturnType<typeof mount>;
+      // eslint-disable-next-line no-console
+      console.log = mockLog;
+      // eslint-disable-next-line no-console
+      console.warn = mockWarn;
     });
     afterEach(() => {
       if (mountTarget && mountTarget.length > 0) {
         mountTarget.unmount();
       }
+      // eslint-disable-next-line no-console
+      console.log = originalConsoleLog;
+      // eslint-disable-next-line no-console
+      console.warn = originalConsoleWran;
+
+      mockLog.mockRestore();
+      mockWarn.mockRestore();
     });
 
     it('업데이트를 연속 4번 했을 때 의도대로 변경 된다.', async done => {
@@ -737,6 +760,8 @@ describe('context injector', () => {
 
       target.unmount();
 
+      jest.mock('console');
+
       const spy = jest.spyOn(console, 'log');
 
       await act(async () => {
@@ -745,6 +770,8 @@ describe('context injector', () => {
 
       expect(spy).toBeCalled();
       expect(spy).lastCalledWith('canceled');
+
+      spy.mockRestore();
 
       done();
     });
@@ -768,6 +795,8 @@ describe('context injector', () => {
       target1.unmount();
       target2.unmount();
       target3.unmount();
+
+      spy.mockRestore();
 
       done();
     });
