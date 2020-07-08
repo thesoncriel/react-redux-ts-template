@@ -35,9 +35,15 @@ function getInitCtxState(): CtxState {
   };
 }
 
+interface TestQuery {
+  keyword?: string;
+  type?: string;
+}
+
 interface InterTestState {
   value: number;
   items: TestCompProps[];
+  query?: TestQuery;
   loading: boolean;
 }
 
@@ -45,6 +51,7 @@ function getInitInterTestState(): InterTestState {
   return {
     items: [],
     loading: false,
+    query: {},
     value: 100,
   };
 }
@@ -99,6 +106,11 @@ const sampleInteractor = (
         loading: false,
       });
     }
+  },
+  noAsync(query: TestQuery) {
+    dispatch({
+      query: { ...state().query, ...query },
+    });
   },
   async plusValue(plusValue: number) {
     try {
@@ -541,6 +553,56 @@ describe('context injector', () => {
       expect(heroItems.at(2).text()).toEqual(getHeroItemStr(sampleList[2]));
 
       mountTarget.unmount();
+
+      done();
+    });
+
+    it('interactor 가 동기적 함수여도 제대로 수행된다.', async done => {
+      const interTest = (
+        getState: () => InterTestState,
+        dispatch: (state: Partial<InterTestState>) => void,
+      ) => ({
+        noAsync(query: TestQuery) {
+          dispatch({
+            query: {
+              ...getState().query,
+              ...query,
+            },
+          });
+        },
+      });
+      const ctx = contextInjector(getInitInterTestState(), interTest);
+      const TestComponent: FC = () => {
+        const { query } = ctx.useCtxSelectorAll();
+        const inter = ctx.useInteractor();
+
+        useEffect(() => {
+          inter.noAsync({ keyword: 'style', type: 'share' });
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, []);
+
+        return (
+          <div>
+            <div className="keyword">{query && query.keyword}</div>
+            <div className="type">{query && query.type}</div>
+          </div>
+        );
+      };
+      const TestContainer = ctx.withCtx(TestComponent);
+
+      let mountTarget: ReturnType<typeof mount>;
+
+      await act(async () => {
+        mountTarget = mount(<TestContainer />) as ReturnType<typeof mount>;
+        mountTarget = mountTarget.mount();
+
+        await timeout(100);
+
+        expect(mountTarget.find('.keyword').prop('children')).toEqual('style');
+        expect(mountTarget.find('.type').prop('children')).toEqual('share');
+
+        mountTarget.unmount();
+      });
 
       done();
     });
