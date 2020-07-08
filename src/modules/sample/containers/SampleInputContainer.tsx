@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { LayoutContainer } from '../../_shared';
 import { sampleCtx as ctx } from '../contexts';
 import styled from 'styled-components';
@@ -15,6 +15,10 @@ const SampleInputComponent: FC = () => {
   const handleChange = (e: any) => {
     inter.changeValume(e.target.value);
   };
+
+  useEffect(() => {
+    inter.changeValume('과연 바뀔까?!');
+  }, []);
 
   return (
     <LayoutContainer>
