@@ -18,11 +18,12 @@ export const sampleApi = {
    * @param params
    */
   loadList(params: SampleListLoadParams) {
-    const fetch = cache('session')<ListRes<SampleItemModel>>(publicApi.get);
+    const fetch = cache('session')(publicApi);
 
-    return fetch('/data/sample-list.json', params).then(
-      filterSampleList(params),
-    );
+    return fetch<ListRes<SampleItemModel>>(
+      '/data/sample-list.json',
+      params,
+    ).then(filterSampleList(params));
   },
 
   /**

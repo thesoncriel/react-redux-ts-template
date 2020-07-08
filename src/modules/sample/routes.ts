@@ -5,6 +5,7 @@ export const sampleRoute: RouteModel[] = [
   {
     name: '샘플 목록',
     path: '/sample',
+    exact: true,
     component: SamplePage,
   },
   {
