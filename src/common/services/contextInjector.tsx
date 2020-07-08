@@ -36,21 +36,30 @@ export function contextInjector<T, IT>(
   let isAleadyUsed = false;
   let cachedState: T | null = null;
   let cachedInteractor: IT | null = null;
+  let usingCounts = 0;
 
   const CtxProvider: FC = ({ children }) => {
     const [state, dispatch] = useState({ ...initState });
 
     useEffect(() => {
-      if (isAleadyUsed && console && console.warn) {
-        console.warn('Context is aleady used!');
+      if (usingCounts > 0) {
+        try {
+          // eslint-disable-next-line no-console
+          console.warn('Context is aleady used!');
+        } catch (error) {
+          //
+        }
       }
-      isAleadyUsed = true;
+      usingCounts++;
+
       return () => {
         isAleadyUsed = false;
         cachedState = null;
+        usingCounts--;
       };
     }, []);
 
+    isAleadyUsed = true;
     cachedState = state;
 
     return (
