@@ -862,5 +862,67 @@ describe('context injector', () => {
 
       done();
     });
+
+    it('context 를 사용치 않는데 interactor 를 호출하면 경고를 띄운다.', async done => {
+      const spy = jest.spyOn(console, 'warn');
+      const ctx = contextInjector(
+        getInitCtxState(),
+        (
+          getState: () => CtxState,
+          dispatch: (state: Partial<CtxState>) => void,
+        ) => ({
+          setLoading(loading: boolean) {
+            dispatch({
+              ...getState(),
+              loading,
+            });
+          },
+        }),
+      );
+
+      // const Container1 = ctx.withCtx(HeroesContainer);
+      const TestContainer: FC = () => {
+        const { loading } = ctx.useCtxSelectorAll();
+        const inter = ctx.useInteractor();
+
+        useEffect(() => {
+          inter.setLoading(!loading);
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, []);
+
+        return <div>{loading}</div>;
+      };
+
+      await act(async () => {
+        let mountTarget = mount(<TestContainer />) as ReturnType<typeof mount>;
+        mountTarget = mountTarget.mount();
+
+        await timeout(100);
+
+        expect(spy).toHaveBeenCalledWith(
+          'context is not wrapped. - state hint:',
+          getInitCtxState(),
+        );
+
+        mountTarget.unmount();
+      });
+
+      spy.mockReset();
+
+      const CtxContainer = ctx.withCtx(TestContainer);
+
+      await act(async () => {
+        let mountTarget = mount(<CtxContainer />) as ReturnType<typeof mount>;
+        mountTarget = mountTarget.mount();
+
+        await timeout(100);
+
+        expect(spy).not.toHaveBeenCalled();
+
+        mountTarget.unmount();
+      });
+
+      done();
+    });
   });
 });
