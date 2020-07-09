@@ -15,7 +15,6 @@ import {
 } from '../models';
 import { nop } from '../../util';
 import appConfig from '../app.config';
-
 /**
  * 상태 관리에 이용할 컨텍스트와 이를 이용하기 위한 각종 컴포넌트와 훅(hooks)을 만들어서 제공한다.
  *
@@ -31,12 +30,12 @@ export function contextInjector<T, IT>(
     dispatch: nop,
     state: initState,
   });
-
   const ContextProvider = InjectedContext.Provider;
   let isAleadyUsed = false;
   let cachedState: T | null = null;
   let cachedInteractor: IT | null = null;
   let usingCounts = 0;
+  let ctxWrapped = false;
 
   const CtxProvider: FC = ({ children }) => {
     const [state, dispatch] = useState({ ...initState });
@@ -56,9 +55,11 @@ export function contextInjector<T, IT>(
         isAleadyUsed = false;
         cachedState = null;
         usingCounts--;
+        ctxWrapped = false;
       };
     }, []);
 
+    ctxWrapped = true;
     isAleadyUsed = true;
     cachedState = state;
 
@@ -66,7 +67,6 @@ export function contextInjector<T, IT>(
       <ContextProvider value={{ dispatch, state }}>{children}</ContextProvider>
     );
   };
-
   const withCtx = function<P>(Comp: ComponentType<P>) {
     const ReturnComp: FC<P> = props => {
       return (
@@ -75,22 +75,16 @@ export function contextInjector<T, IT>(
         </CtxProvider>
       );
     };
-
     return ReturnComp;
   };
-
   const useCtxSelector = function<R>(selector: (state: T) => R) {
     const { state } = useContext(InjectedContext);
-
     return selector(state);
   };
-
   const useCtxSelectorAll = () => {
     const { state } = useContext(InjectedContext);
-
     return state;
   };
-
   const useCtxDispatch = () => {
     const { dispatch } = useContext(InjectedContext);
 
@@ -101,9 +95,15 @@ export function contextInjector<T, IT>(
       }));
     };
   };
-
   const useInteractor = (): IT => {
     const { state, dispatch } = useContext(InjectedContext);
+
+    if (!ctxWrapped) {
+      if (appConfig.development) {
+        // eslint-disable-next-line no-console
+        console.warn('context is not wrapped. - state hint:', state);
+      }
+    }
 
     useEffect(
       () => () => {
@@ -118,6 +118,7 @@ export function contextInjector<T, IT>(
         (currState: Partial<T>) => {
           if (!isAleadyUsed) {
             if (appConfig.development) {
+              // eslint-disable-next-line no-console
               console.log('canceled');
             }
             return;
@@ -129,10 +130,8 @@ export function contextInjector<T, IT>(
         },
       );
     }
-
     return cachedInteractor;
   };
-
   return {
     CtxProvider,
     useCtxDispatch,
@@ -142,7 +141,6 @@ export function contextInjector<T, IT>(
     withCtx,
   };
 }
-
 /**
  * 두개의 인터렉터를 합쳐 하나의 인터렉터로 만든다.
  *
