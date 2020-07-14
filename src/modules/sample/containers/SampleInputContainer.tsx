@@ -10,20 +10,41 @@ const Input = styled.input`
 
 const SampleInputComponent: FC = () => {
   const inter = ctx.useInteractor();
-  const { volume } = ctx.useCtxSelectorAll();
+  const { volume, items, loading } = ctx.useCtxSelectorAll();
 
   const handleChange = (e: any) => {
     inter.changeValume(e.target.value);
   };
+  const handleClick = () => {
+    void inter.loadList();
+  };
 
   useEffect(() => {
     inter.changeValume('과연 바뀔까?!');
-  }, []);
+    console.log('did mount!');
+
+    return () => {
+      console.log('will unmount!');
+    };
+  }, [inter]);
 
   return (
     <LayoutContainer>
       <Input value={volume} onChange={handleChange} />
       <div>volume: {volume}</div>
+      {loading ? (
+        '로딩중...'
+      ) : (
+        <button type="button" onClick={handleClick}>
+          자동 추가
+        </button>
+      )}
+
+      <ul>
+        {items.map((item, idx) => (
+          <li key={idx}>{item}</li>
+        ))}
+      </ul>
     </LayoutContainer>
   );
 };

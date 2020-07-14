@@ -34,6 +34,7 @@ export function contextInjector<T, IT>(
   let isAleadyUsed = false;
   let cachedState: T | null = null;
   let cachedInteractor: IT | null = null;
+  let cachedDispatch: ((currState: Partial<T>) => void) | null = null;
   let usingCounts = 0;
   let ctxWrapped = false;
 
@@ -56,6 +57,8 @@ export function contextInjector<T, IT>(
         cachedState = null;
         usingCounts--;
         ctxWrapped = false;
+        cachedInteractor = null;
+        cachedDispatch = null;
       };
     }, []);
 
@@ -88,12 +91,16 @@ export function contextInjector<T, IT>(
   const useCtxDispatch = () => {
     const { dispatch } = useContext(InjectedContext);
 
-    return (currState: Partial<T>) => {
-      dispatch((prevState: T) => ({
-        ...prevState,
-        ...currState,
-      }));
-    };
+    if (cachedDispatch === null) {
+      cachedDispatch = (currState: Partial<T>) => {
+        dispatch((prevState: T) => ({
+          ...prevState,
+          ...currState,
+        }));
+      };
+    }
+
+    return cachedDispatch;
   };
   const useInteractor = (): IT => {
     const { state, dispatch } = useContext(InjectedContext);
@@ -105,14 +112,7 @@ export function contextInjector<T, IT>(
       }
     }
 
-    useEffect(
-      () => () => {
-        cachedInteractor = null;
-      },
-      [],
-    );
-
-    if (cachedInteractor === null || state !== cachedState) {
+    if (cachedInteractor === null) {
       cachedInteractor = interactor(
         () => cachedState || state,
         (currState: Partial<T>) => {

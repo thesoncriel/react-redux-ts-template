@@ -363,8 +363,7 @@ describe('context injector', () => {
         dispatch({
           loading: true,
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, []);
+      }, [dispatch]);
 
       return (
         <>
@@ -578,8 +577,7 @@ describe('context injector', () => {
 
         useEffect(() => {
           inter.noAsync({ keyword: 'style', type: 'share' });
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, []);
+        }, [inter]);
 
         return (
           <div>
@@ -887,8 +885,7 @@ describe('context injector', () => {
 
         useEffect(() => {
           inter.setLoading(!loading);
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, []);
+        }, [inter]);
 
         return <div>{loading}</div>;
       };
