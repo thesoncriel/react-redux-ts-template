@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 import styled, { css } from 'styled-components';
 import { cn, serializeParams } from '../../../util';
 import { PaginationLinkMakeModel } from '../../models';
 import { PagingItemInner } from './PagingItemInner';
+import { Link } from 'react-router-dom';
 
 export const COLOR_BLACK = '#2c3744';
 export const COLOR_WHITE_OVER = '#f5f7f9';
@@ -15,7 +16,7 @@ interface Props {
   /**
    * 페이징 컴포넌트에 표현될 아이콘
    */
-  icon?: string;
+  icon?: ComponentType;
   /**
    * 활성화 여부
    */
@@ -41,13 +42,17 @@ interface Props {
    */
   next?: boolean;
   /**
+   * 줄임표(...) 표현 여부
+   */
+  ellipsis?: boolean;
+  /**
    * 링크 경로를 자동으로 만들 때 쓰이는 파라미터.
    *
    * 내부 필드를 검색하여 비어 있거나 null, undefined 일 경우 무시하며 limit, skip 은 별도로 받고 있으므로 이 필드들 또한 무시 한다.
    *
    * 만약 onHref 를 쓸 경우 무시된다.
    */
-  params?: any;
+  params?: Record<string, any>;
   /**
    * 페이징 생성 시 원하는 링크경로를 조합 할 때 쓰인다.
    *
@@ -57,52 +62,16 @@ interface Props {
 }
 
 const anchorStyle = css`
-  display: inline-block;
-  /* align-items: center;
-  justify-content: center; */
-  width: 32px;
-  height: 32px;
-  margin: 0 4px;
-  /* border: 1px solid #000; */
-  text-align: center;
-  vertical-align: top;
-  font-size: 16px;
-
-  &.active {
-    color: #fff;
-    background: ${COLOR_BLACK};
-    cursor: default;
-
-    &:hover {
-      background: ${COLOR_BLACK};
-    }
-  }
-
-  &.prevNext {
-    background: none;
-
-    &.active {
-    }
-  }
-
-  &:hover {
-    background: ${COLOR_WHITE_OVER};
-  }
-
-  & > * {
-    line-height: 28px;
-  }
-
-  .icon {
-    padding-top: 8px;
-  }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Span = styled.span`
   ${anchorStyle}
 `;
 
-const Anchor = styled.a`
+const Anchor = styled(Link)`
   ${anchorStyle}
 `;
 
@@ -117,23 +86,32 @@ export const PagingItemLink: React.FC<Props> = props => {
     limit,
     prev,
     next,
+    ellipsis,
     params,
   } = props;
 
   const prevNext = prev || next;
 
+  if (ellipsis) {
+    return (
+      <Span className={cn('link ellipsis', className)}>
+        <PagingItemInner {...props}>{'…'}</PagingItemInner>
+      </Span>
+    );
+  }
+
   return active ? (
-    <Span className={cn(className, { active: !prevNext, prevNext })}>
+    <Span className={cn('link', className, { active: !prevNext, prev, next })}>
       <PagingItemInner {...props}>{children}</PagingItemInner>
     </Span>
   ) : (
     <Anchor
-      href={
+      to={
         onHref
           ? onHref({ page, skip, limit })
           : serializeParams({ ...params, skip, limit }, true)
       }
-      className={className}
+      className={cn('link', className, { prev, next })}
     >
       <PagingItemInner {...props}>{children}</PagingItemInner>
     </Anchor>

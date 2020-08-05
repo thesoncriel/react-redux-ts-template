@@ -1,8 +1,8 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, ComponentType } from 'react';
 import styled from 'styled-components';
 import { cn } from '../../../util';
+import { calcMaxPage, createPages } from '../../../util/util.pagination';
 import { PageChangeArgs, PaginationLinkMakeModel } from '../../models';
-import { calcMaxPage, createPages } from './Pagination.services';
 import { PagingItemLink } from './PagingItemLink';
 
 interface Props extends PageChangeArgs {
@@ -21,7 +21,7 @@ interface Props extends PageChangeArgs {
    *
    * onHref 를 쓸 경우 무시된다.
    */
-  params?: any;
+  params?: Record<string, any>;
   /**
    * 페이징 네이게이션에서 표현될 페이지 개수
    */
@@ -34,6 +34,18 @@ interface Props extends PageChangeArgs {
    * 숨김 여부. 기본 false.
    */
   hide?: boolean;
+  /**
+   * 이전 아이콘 컴포넌트
+   */
+  prevIcon?: ComponentType;
+  /**
+   * 다음 아이콘 컴포넌트
+   */
+  nextIcon?: ComponentType;
+  /**
+   * 줄임표(...) 아이콘 컴포넌트
+   */
+  ellipsisIcon?: ComponentType;
   /**
    * 페이징 생성 시 원하는 링크경로를 조합 할 때 쓰인다.
    *
@@ -64,6 +76,9 @@ export const LinkPagination: FC<Props> = ({
   hide,
   className,
   params,
+  prevIcon,
+  nextIcon,
+  ellipsisIcon,
   onHref,
 }) => {
   const maxPage = useMemo(() => calcMaxPage(totalCount, limit), [
@@ -72,7 +87,7 @@ export const LinkPagination: FC<Props> = ({
   ]);
   const page = useMemo(() => Math.floor(skip / limit) + 1, [skip, limit]);
   const pages = useMemo(
-    () => createPages({ page, navCount: navCount || 5, maxPage }),
+    () => createPages({ page, navCount: navCount || 10, maxPage }),
     [page, navCount, maxPage],
   );
 
@@ -85,6 +100,8 @@ export const LinkPagination: FC<Props> = ({
   const iPrevSkip = (iPrevPage - 1) * limit;
   const iNextSkip = (iNextPage - 1) * limit;
 
+  console.log('pages', pages);
+
   return (
     <Wrap className={cn(className, { center })}>
       <PagingItemLink
@@ -94,12 +111,14 @@ export const LinkPagination: FC<Props> = ({
         skip={iPrevSkip}
         active={page === 1}
         params={params}
-        icon="caret-prev-sm"
+        icon={prevIcon}
         prev
       />
       {pages.map(num => (
         <PagingItemLink
           key={num}
+          ellipsis={num < 0}
+          icon={num < 0 ? ellipsisIcon : undefined}
           active={page === num}
           skip={(num - 1) * limit}
           page={num}
@@ -117,7 +136,7 @@ export const LinkPagination: FC<Props> = ({
         skip={iNextSkip}
         params={params}
         active={page === maxPage}
-        icon="caret-next-sm"
+        icon={nextIcon}
         next
       />
     </Wrap>

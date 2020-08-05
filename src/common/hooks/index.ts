@@ -1,7 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { AnyAction } from 'redux';
-import { AsyncDispatch, cleanUpNil } from '../../util';
+import { AsyncDispatch } from '../../util';
 import { useLocation, useParams } from 'react-router';
+import { HashMap } from '../models';
 
 /**
  * @description
@@ -49,7 +50,7 @@ export function useQuery<T = any>(def?: Partial<T>): T {
   if (def) {
     return {
       ...def,
-      ...mQuery
+      ...mQuery,
     };
   }
 
@@ -70,17 +71,23 @@ export function useQuery<T = any>(def?: Partial<T>): T {
  * @see useParams
  * @see useQuery
  */
-export function useQueryParams<T>(def?: Partial<T>): T {
-  const paramsOri = useParams<T>();
-  const query = useQuery<T>(def);
-  const params = cleanUpNil(paramsOri);
+export function useQueryParams<T = HashMap<string>, R = T>(
+  sel?: (params: T) => R,
+): R {
+  const paramsOri = useParams();
+  const query = useQuery();
 
-  return {
+  const ret = {
     ...query,
-    ...params,
+    ...paramsOri,
   };
-}
 
+  if (sel) {
+    return sel(ret as T);
+  }
+
+  return ret as R;
+}
 
 // export function useQuery<T = any>(): T {
 //   const search = useLocation().search;

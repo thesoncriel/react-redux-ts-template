@@ -1,11 +1,10 @@
-import React from 'react';
-import { Icon } from '../Icon';
+import React, { ComponentType } from 'react';
 
 interface Props {
   /**
-   * 아이콘 명칭
+   * 아이콘 컴포넌트
    */
-  icon?: string;
+  icon?: ComponentType;
   /**
    * '이전' 형태로 렌더링
    */
@@ -21,17 +20,15 @@ interface Props {
  * @param param0
  */
 export const PagingItemInner: React.FC<Props> = ({
-  icon,
+  icon: Icon,
   prev,
   next,
   children,
 }) => (
   <>
-    {icon && <Icon>{icon}</Icon>}
-    {prev || next ? (
+    {Icon ? <Icon /> : children}
+    {(prev || next) && (
       <span className="sr-only">{prev ? '이전' : '다음'}</span>
-    ) : (
-      <span>{children}</span>
     )}
   </>
 );
