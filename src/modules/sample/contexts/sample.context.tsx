@@ -1,4 +1,4 @@
-import contextInjector from 'context-kit';
+import { contextInjector } from '../../../common/services/contextInjector';
 import { sampleInteractor } from '../interactors/sample.interactor';
 
 export interface SampleContextModel {
