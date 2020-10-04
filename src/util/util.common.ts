@@ -61,7 +61,7 @@ export const isStorageAvailable = () => IS_STORAGE_AVAILABLE;
  */
 // tslint:disable-next-line:no-empty
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const nop = () => { };
+export const nop = () => {};
 
 /**
  * window.setTimeout 의 wapping function.
@@ -109,7 +109,9 @@ export function isEmpty(val: any) {
  * 객체의 각 항목들을 검사하여 비어 있다면 그 항목 자체가 지워진 객체를 넘겨준다.
  * @param origin
  */
-export function cleanUpNil<T, R = Partial<T>>(origin: T | { [K in keyof T]?: string }): R {
+export function cleanUpNil<T, R = Partial<T>>(
+  origin: T | { [K in keyof T]?: string },
+): R {
   const keys = Object.keys(origin);
   const len = keys.length;
   const target: any = { ...origin };
