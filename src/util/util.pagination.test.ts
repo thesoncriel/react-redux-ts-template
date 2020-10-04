@@ -1,4 +1,4 @@
-import { createPages, createPagesByCenter } from './Pagination.services';
+import { createPages, createPagesByCenter } from './util.pagination';
 
 describe('pagination service', () => {
   describe('createPagesByCenter', () => {
@@ -366,7 +366,7 @@ describe('pagination service', () => {
         6,
         7,
         8,
-        -1,
+        -2,
         maxPage,
       ]);
     });
@@ -380,20 +380,20 @@ describe('pagination service', () => {
         7,
         8,
         9,
-        -1,
+        -2,
         maxPage,
       ]);
     });
     it('220페이지', () => {
-      expect(createPages({ page: 7, navCount: 10, maxPage })).toEqual([
+      expect(createPages({ page: 220, navCount: 10, maxPage })).toEqual([
         1,
         -1,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
+        maxPage - 7,
+        maxPage - 6,
+        maxPage - 5,
+        maxPage - 4,
+        maxPage - 3,
+        maxPage - 2,
         maxPage - 1,
         maxPage,
       ]);
