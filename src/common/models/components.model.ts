@@ -1,10 +1,4 @@
-import {
-  ComponentType,
-  Dispatch,
-  FC,
-  MouseEventHandler,
-  SetStateAction,
-} from 'react';
+import { MouseEventHandler } from 'react';
 import { HashMap } from './collections.model';
 import { InputChangeArgs, PageChangeArgs } from './events.model';
 

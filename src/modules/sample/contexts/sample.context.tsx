@@ -1,5 +1,5 @@
-import contextInjector from 'context-kit';
-import { sampleInteractor } from '../interactors/sample.interactor';
+import { contextInjector } from 'context-kit';
+import { sampleWorker } from '../workers/sample.worker';
 
 export interface SampleContextModel {
   sharedValue: string;
@@ -17,4 +17,4 @@ function getInitState(): SampleContextModel {
   };
 }
 
-export const sampleCtx = contextInjector(getInitState(), sampleInteractor);
+export const sampleCtx = contextInjector(getInitState(), sampleWorker);

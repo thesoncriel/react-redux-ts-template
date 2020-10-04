@@ -1,9 +1,9 @@
 import { SampleContextModel } from '../contexts/sample.context';
 import { timeout } from '../../../util';
 
-export const sampleInteractor = (
-  getState: () => SampleContextModel,
+export const sampleWorker = (
   dispatch: (state: Partial<SampleContextModel>) => void,
+  getState: () => SampleContextModel,
 ) => ({
   changeValume(volume: string) {
     dispatch({
