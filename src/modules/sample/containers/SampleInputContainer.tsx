@@ -9,8 +9,8 @@ const Input = styled.input`
 `;
 
 const SampleInputComponent: FC = () => {
-  const inter = ctx.useInteractor();
-  const { volume, items, loading } = ctx.useCtxSelectorAll();
+  const inter = ctx.useWorker();
+  const { volume, items, loading } = ctx.useSelectorAll();
 
   const handleChange = (e: any) => {
     inter.changeValume(e.target.value);
